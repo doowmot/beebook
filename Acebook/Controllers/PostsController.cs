@@ -27,6 +27,14 @@ public class PostsController : Controller
     [Route("/posts")]
     [HttpPost]
     public RedirectResult Create(Post post) {
+      int user_id = HttpContext.Session.GetInt32("user_id").Value;
+      System.Console.WriteLine("------");
+      System.Console.WriteLine(user_id);
+      System.Console.WriteLine("------");
+      post.UserId = user_id;
+      System.Console.WriteLine("------");
+      System.Console.WriteLine(post.UserId);
+      System.Console.WriteLine("------");
       PostContext postContext = new PostContext();
       postContext.Posts.Add(post);
       postContext.SaveChanges();
