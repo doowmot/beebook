@@ -23,8 +23,8 @@ public class SessionsController : Controller
     [Route("/signin")]
     [HttpPost]
     public RedirectResult Create(string email, string password) {
-      UserContext userContext = new UserContext();
-      User? user = userContext.Users.Where(user => user.Email == email).First();
+      AcebookDbContext dbContext = new AcebookDbContext();
+      User? user = dbContext.Users.Where(user => user.Email == email).First();
       if(user != null && user.Password == password)
       {
         HttpContext.Session.SetInt32("user_id", user.Id);

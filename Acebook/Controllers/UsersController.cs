@@ -23,9 +23,9 @@ public class UsersController : Controller
     [Route("/users")]
     [HttpPost]
     public RedirectResult Create(User user) {
-      UserContext userContext = new UserContext();
-      userContext.Users.Add(user);
-      userContext.SaveChanges();
+      AcebookDbContext dbContext = new AcebookDbContext();
+      dbContext.Users.Add(user);
+      dbContext.SaveChanges();
       return new RedirectResult("/signin");
     }
 

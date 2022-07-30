@@ -18,8 +18,8 @@ public class PostsController : Controller
     [Route("/posts")]
     [HttpGet]
     public IActionResult Index() {
-      PostContext postContext = new PostContext();
-      List<Post> posts = postContext.Posts.ToList();
+      AcebookDbContext dbContext = new AcebookDbContext();
+      List<Post> posts = dbContext.Posts.ToList();
       ViewBag.Posts = posts;
       return View();
     }
@@ -28,16 +28,10 @@ public class PostsController : Controller
     [HttpPost]
     public RedirectResult Create(Post post) {
       int user_id = HttpContext.Session.GetInt32("user_id").Value;
-      System.Console.WriteLine("------");
-      System.Console.WriteLine(user_id);
-      System.Console.WriteLine("------");
       post.UserId = user_id;
-      System.Console.WriteLine("------");
-      System.Console.WriteLine(post.UserId);
-      System.Console.WriteLine("------");
-      PostContext postContext = new PostContext();
-      postContext.Posts.Add(post);
-      postContext.SaveChanges();
+      AcebookDbContext dbContext = new AcebookDbContext();
+      dbContext.Posts.Add(post);
+      dbContext.SaveChanges();
       return new RedirectResult("/posts");
     }
 
