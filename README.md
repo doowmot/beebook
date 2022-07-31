@@ -1,26 +1,69 @@
-# C# Acebook Template
+# AceBook
 
-A template application for Acebook in C#
+## Quickstart
 
-The following features have already been implemented – you are inheriting a small legacy codebase!
+First, clone this repository. Then:
 
-- Signing up
-- Signing in
-- Making a post
+- Install the .NET Entity Framework CLI
+  * `dotnet tool install --global dotnet-ef`
+- Create the database in `psql`
+  * `CREATE DATABASE acebook_csharp;`
+- Run the migration to create the tables
+  * `cd` into `/Acebook`
+  * `dotnet ef database update`
+- Start the application
+  * `dotnet watch run`
+- Go to `http://localhost:5287/`
 
-Your task is to extend the application.
+## Running the Tests
 
-## Setup
-- Installing dependencies
-`dotnet tool install --global dotnet-ef`
-- Creating the database 
-- Running migrations
-`dotnet ef migrations add <MigrationName>` -> how to avoid using --context?
-`dotnet ef database update`
+- Install Chromedriver
+  * `brew install chromedriver`
+- Start the application
+  * `dotnet watch run`
+- Open a second terminal session and run the tests
+  * `dotnet test`
 
-## Running Acebook
-Use `dotnet watch run` so that the application automatically recompiles whenever you make changes to the codebase.
+### Troubleshooting the Tests
 
-## Testing
-- Run the app using `dotnet watch run`
-- In a new terminal, execute the tests using `dotnet test`
+If you see a popup about not being able to open Chromedriver...
+- Go to **System Preferences > Security and Privacy > General**
+- There should be another message about Chromedriver there
+- If so, Click on **Allow Anyway**
+
+## Changing the Database
+
+Changes are applied to the database programatically, using files called _migrations_, which live in the `/Migrations` directory. The process is as follows...
+
+- Change the model/s
+  * For example, you might want to add a title to the `Post` model
+  * In which case, you would add a new field there
+- Generate the migration file
+  * `cd` into `/Acebook`
+  * Decide what you wan to call the migration file
+  * `AddTitleToPosts` would work for this one
+  * `dotnet migrations add AddTitleToPosts`
+- Run the migration
+  * `dotnet ef database update`
+
+### Troubleshooting Migrations
+
+Don't edit the migration files after they've been applied / run. If you do that, it'll probably lead to problems. If you decide that the migration you just applied wasn't quite right for some reason, you have two options
+
+- Create and run another migration (using the process above)
+
+OR...
+
+- Rollback / undo the last migration
+- Then edit the migration file before re-running it
+
+How do you rollbacl a migration? Let's assume that you have two migrations, both of which have been applied.
+
+1. CreatePostsAndUsers
+2. AddTitleToPosts
+
+To rollback the second, you again use `dotnet ef database update` but this time adding the name of the last 'good' migration. In this case, that would be `CreatePostsAndUsers`. So the command is...
+
+```shell
+; dotnet ef database update CreatePostsAndUsers
+```
