@@ -6,32 +6,34 @@ First, clone this repository. Then:
 
 - Install the .NET Entity Framework CLI
   * `dotnet tool install --global dotnet-ef`
-- Create the database in `psql`
-  * `CREATE DATABASE acebook_csharp;`
+- Create the database/s in `psql`
+  * `CREATE DATABASE acebook_csharp_development;`
+  * `CREATE DATABASE acebook_csharp_test;`
 - Run the migration to create the tables
   * `cd` into `/Acebook`
   * `dotnet ef database update`
-- Start the application
-  * `dotnet watch run`
+  * `DATABASE_NAME=acebook_csharp dotnet ef database update`
+- Start the application, with the development database
+  * `DATABASE_NAME=acebook_csharp_development dotnet watch run`
 - Go to `http://localhost:5287/`
 
 ## Running the Tests
 
 - Install Chromedriver
   * `brew install chromedriver`
-- Start the application
+- Start the application, with the default (test) database
   * `dotnet watch run`
 - Open a second terminal session and run the tests
   * `dotnet test`
 
-### Troubleshooting the Tests
+### Troubleshooting
 
 If you see a popup about not being able to open Chromedriver...
 - Go to **System Preferences > Security and Privacy > General**
 - There should be another message about Chromedriver there
 - If so, Click on **Allow Anyway**
 
-## Changing the Database
+## Updating the Database
 
 Changes are applied to the database programatically, using files called _migrations_, which live in the `/Migrations` directory. The process is as follows...
 
