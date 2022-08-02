@@ -48,7 +48,27 @@ Changes are applied to the database programatically, using files called _migrati
 - Run the migration
   * `dotnet ef database update`
 
-### Troubleshooting Migrations
+### Troubleshooting
+
+#### Seeing `role "postgres" does not exist`?
+
+Your application tries to connect to the database as a user called `postgres`, which is normally created automatically when you install PostgresQL. If the `postgres` user doesn't exist, you'll see `role "postgres" does not exist`.
+
+To fix it, you'll need to create the `postgres` user.
+
+Try this in your terminal...
+
+```
+; createuser -s postgres
+```
+
+If you see `command not found: createuser`, start a new `psql` session and do this...
+
+```sql
+create user postgres;
+```
+
+#### Want to Change an Existing Migration?
 
 Don't edit the migration files after they've been applied / run. If you do that, it'll probably lead to problems. If you decide that the migration you just applied wasn't quite right for some reason, you have two options
 
