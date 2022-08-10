@@ -12,7 +12,7 @@ First, clone this repository. Then:
 - Run the migration to create the tables
   * `cd` into `/Acebook`
   * `dotnet ef database update`
-  * `DATABASE_NAME=acebook_csharp dotnet ef database update`
+  * `DATABASE_NAME=acebook_csharp_development dotnet ef database update`
 - Start the application, with the development database
   * `DATABASE_NAME=acebook_csharp_development dotnet watch run`
 - Go to `http://localhost:5287/`
