@@ -44,7 +44,7 @@ Changes are applied to the database programatically, using files called _migrati
   * `cd` into `/Acebook`
   * Decide what you wan to call the migration file
   * `AddTitleToPosts` would work for this one
-  * `dotnet migrations add AddTitleToPosts`
+  * `dotnet ef migrations add AddTitleToPosts`
 - Run the migration
   * `dotnet ef database update`
 
