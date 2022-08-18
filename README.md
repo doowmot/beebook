@@ -37,14 +37,20 @@ If you see a popup about not being able to open Chromedriver...
 
 Changes are applied to the database programatically, using files called _migrations_, which live in the `/Migrations` directory. The process is as follows...
 
-- Change the model/s
+- To update an existing table
   * For example, you might want to add a title to the `Post` model
   * In which case, you would add a new field there
+- To create a new table
+  * For example, you might want to add a table called Comments
+  * First, create the `Comment` model
+  * Then go to AcebookDbContext
+  * And add this `public DbSet<Comment>? Comments { get; set; }` 
 - Generate the migration file
   * `cd` into `/Acebook`
   * Decide what you wan to call the migration file
-  * `AddTitleToPosts` would work for this one
-  * `dotnet ef migrations add AddTitleToPosts`
+  * `AddTitleToPosts` or `CreateCommentsTable` would be good descriptive names
+  * Then do `dotnet ef migrations add ` followed by the name you chose
+  * E.g.  `dotnet ef migrations add AddTitleToPosts`
 - Run the migration
   * `dotnet ef database update`
 
