@@ -5,6 +5,9 @@ public class AcebookDbContext : DbContext
 {
     public DbSet<Post>? Posts { get; set; }
     public DbSet<User>? Users { get; set; }
+    public DbSet<Comment>? Comment { get; set; }
+
+
 
     public string? DbPath { get; }
 
