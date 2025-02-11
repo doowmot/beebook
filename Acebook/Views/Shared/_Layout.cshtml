@@ -26,6 +26,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <!-- 🔹 Check if NOT on /signin or /signup before showing Sign Out -->
+                    @{
+                        var currentPath = Context.Request.Path.ToString();
+                        var isLoggedIn = Context.Session.GetInt32("user_id") != null;
+                    }
+
+                    @if (!currentPath.Equals("/signin", StringComparison.OrdinalIgnoreCase) &&
+                        !currentPath.Equals("/signup", StringComparison.OrdinalIgnoreCase))
+                    {
+                        @if (isLoggedIn)
+                        {
+                        <!-- Show Sign Out when user is logged in -->
+                            <form asp-controller="Sessions" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger">Sign Out</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <!-- Show Sign In and Sign Up buttons when user is logged out -->
+                            <a href="/signin" class="btn btn-outline-primary">Sign In</a>
+                            <a href="/signup" class="btn btn-outline-success">Sign Up</a>
+                        }
+                    }
                 </div>
             </div>
         </nav>

@@ -41,4 +41,11 @@ public class SessionsController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    [Route("/logout")]
+    [HttpPost]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear(); // clears the session
+        return RedirectToAction("Index", "Home"); // redirects to the home page 
+    }
 }
