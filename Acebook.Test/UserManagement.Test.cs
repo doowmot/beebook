@@ -17,6 +17,7 @@ namespace Acebook.Tests
     [TearDown]
     public void TearDown() {
       driver.Quit();
+      driver.Dispose();
     }
 
     [Test]
@@ -34,7 +35,7 @@ namespace Acebook.Tests
       IWebElement submitButton = driver.FindElement(By.Id("submit"));
       submitButton.Click();
       string currentUrl = driver.Url;
-      Assert.AreEqual("http://127.0.0.1:5287/signin", currentUrl);
+      Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/signin"));
     }
 
     [Test]
@@ -59,7 +60,7 @@ namespace Acebook.Tests
       submitButton = driver.FindElement(By.Id("submit"));
       submitButton.Click();
       string currentUrl = driver.Url;
-      Assert.AreEqual("http://127.0.0.1:5287/posts", currentUrl);
+      Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/posts"));
     }
   }
 }

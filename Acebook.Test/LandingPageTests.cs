@@ -9,12 +9,17 @@ public class LandingPageTests
   [SetUp]
   public void Setup()
   {
-    driver = new ChromeDriver();
+      driver = new ChromeDriver();
   }
 
   [TearDown]
-  public void TearDown() {
-    driver.Quit();
+  public void TearDown()
+  {
+      if (driver != null)
+      {
+          driver.Quit();
+          driver.Dispose();
+      }
   }
 
   [Test]
@@ -22,6 +27,6 @@ public class LandingPageTests
   {
     driver.Navigate().GoToUrl("http://127.0.0.1:5287");
     IWebElement greeting = driver.FindElement(By.Id("greeting"));
-    Assert.AreEqual("Welcome To Acebook", greeting.GetAttribute("innerHTML"));
+    Assert.That(greeting.GetAttribute("innerHTML"), Is.EqualTo("Welcome To Acebook"));
   }
 }
