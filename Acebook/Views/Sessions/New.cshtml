@@ -1,5 +1,12 @@
-<form action="/signin" method="post">
-  <input type='text' id='email' name='email' placeholder='email' />
-  <input type='password' id='password' name='password'/>
-  <input type='submit' id='submit' value='Submit' />
-</form>
+<div class="login-form">
+    <h2>Log in to Acebook</h2>
+    <form action="/signin" method="post">
+        <input type='email' id='email' name='email' placeholder='Email' />
+        <input type='password' id='password' name='password' placeholder='Password'/>
+        <input type='submit' id='submit' value='Log In' />
+    </form>
+    <div>
+        <a href="/signup">Create new account</a>
+    </div>
+</div>
+
