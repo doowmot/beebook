@@ -16,3 +16,42 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Adding CSS styling for Sign in and Sign up pages */
+.login-form, .signup-form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-form input, .signup-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.login-form input:focus, .signup-form input:focus {
+  border-color: #F7D038;
+  outline: none;
+  box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+}
+
+.login-form input[type="submit"], .signup-form input[type="submit"] {
+  background-color: #F7D038;
+  color: black;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-form input[type="submit"]:hover, 
+.signup-form input[type="submit"]:hover {
+  background-color: #EAC529;
+}
