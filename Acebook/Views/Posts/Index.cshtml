@@ -1,11 +1,40 @@
-<h1>Posts</h1>
+<head>
+    <link rel="stylesheet" href="~/css/Posts.css" asp-append-version="true" />
+</head>
 
-<form action="/posts" method="post">
-  <input type="text" name="content"/>
-  <input type="submit" value="Submit"/>
-</form>
+<h1 id="title-name">Posts</h1>
+
+<!-- Post Form -->
+<div>
+    <form action="/posts" method="post">
+        <input type="text" name="content" placeholder="Write a post..." />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
 
 @foreach (Post post in ViewBag.Posts)
 {
-  <p>@post.Content</p>
+    <div class="post">
+        <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
+          <div>
+              <form action="/comments" method="post">
+                  <input type="hidden" name="postId" value="@post.Id" /> <!-- Attach comment to post -->
+                  <input type="text" name="commentContent" placeholder="Write a comment..." />
+                  <input type="submit" value="Comment" />
+              </form>
+          </div>
+        <!-- Display Comments for this Post -->
+        <div class="comments">
+            @if (post.Comments != null && post.Comments.Any())
+            {
+                foreach (Comment comment in post.Comments)
+                {
+                    <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
+                }
+            }
+        </div>
+
+        <!-- Comment Form for this Post -->
+        
+    </div>
 }
