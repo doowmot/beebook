@@ -20,7 +20,7 @@ public class UsersController : Controller
         return View();
     }
 
-    [Route("/users")]
+    [Route("/signup")]
     [HttpPost]
     public RedirectResult Create(User user) {
         AcebookDbContext dbContext = new AcebookDbContext();
