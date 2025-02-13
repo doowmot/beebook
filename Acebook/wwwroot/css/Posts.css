@@ -1,9 +1,21 @@
+/* h1,
+p,
+input {
+    font-family: "Poppins", serif;
+    font-weight: 500;
+    font-style: normal;
+} */
+
+.poppins-regular {
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .comments{
     border-color: #1b6ec2;
     
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: rgba(222, 184, 135, 0.4);
+    margin-top: 15px;
+    margin-bottom: 15px;
     width: fit-content;
     border-radius: 10px;
     padding: 20px;
@@ -13,3 +25,85 @@
   background-color: rgba(157, 225, 246, 0.3);
   width: fit-content;
 }
+
+.master-div {
+  /* margin-top: 10px; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+  max-height: 86vh; 
+  scroll-padding-bottom: 20px;
+  scroll-padding-left: 20px;
+}
+.post-box {
+
+  background-color: rgb(255, 197, 71);
+  margin-top: 10px; 
+  margin-bottom: 20px;
+  position: relative;
+  padding: 50px 150px;
+  border-radius: 20px;
+  box-shadow: 0 0 5px rgba(119, 105, 77, 0.3);
+}
+
+.write-post {
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin-right: 10px;
+}
+.post-box input[type="submit"] {
+  background-color: #3868f7;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 20px 40px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 10px;
+}
+
+.like-box {
+  border-top: 1px solid #1b6ec2;
+  border-bottom: 1px solid #1b6ec2;
+  margin-bottom: 10px;
+}
+.main-post {
+  /* margin-top: 100px; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+
+ background-color: rgb(251, 238, 218); 
+  padding: 20px 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+
+}
+
+.one-comment {
+  background-color: rgb(250, 189, 98);
+  padding: 5px 40px;
+  border-radius: 20px;
+  margin: 10px;
+
+  position: relative;
+}
+
+.login-form input:focus, .signup-form input:focus {
+  border-color: #F7D038;
+  outline: none;
+  box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+}
+
+
+/* image css */
+
+.bee-like {
+  width: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+} 
+
+
