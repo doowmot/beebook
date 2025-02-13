@@ -1,21 +1,31 @@
 <head>
     <link rel="stylesheet" href="~/css/Posts.css" asp-append-version="true" />
-</head>
 
-<h1 id="title-name">Posts</h1>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body class="poppins-regular">
+   <div class="master-div">
+<div class="post-box">
+    @* <h1 id="title-name">Posts</h1> *@
 
 <!-- Post Form -->
-<div>
-    <form action="/posts" method="post">
-        <input type="text" name="content" placeholder="Write a post..." />
-        <input type="submit" value="Submit" />
-    </form>
+<form action="/posts" method="post">
+    <input type="text" name="content" placeholder="Write a post..." class="write-post" />
+    <input type="submit" id='submit' value="Post" />
+</form>  
 </div>
 
-@foreach (Post post in ViewBag.Posts)
-{
+<div class="main-post">
+
+    @foreach (Post post in ViewBag.Posts)
+    {
     <div class="post">
         <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
+        <div class="like-box">
+            <img class="bee-like" src="@Url.Content("~/img/bee.png")" alt="image">
+        </div>
           <div>
               <form action="/comments" method="post">
                   <input type="hidden" name="postId" value="@post.Id" /> <!-- Attach comment to post -->
@@ -29,12 +39,17 @@
             {
                 foreach (Comment comment in post.Comments)
                 {
-                    <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
+                    <div class="one-comment">
+                        <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
+                    </div>
+                
                 }
             }
         </div>
-
-        <!-- Comment Form for this Post -->
-        
     </div>
 }
+
+</div> 
+</body>
+
+
