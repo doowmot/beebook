@@ -16,14 +16,15 @@ public class User
   public ICollection<User>? Friends {get; set;}  // Created list to store all friends this user has added
 
   // Constructor so we can create new users
-  public User(string Name, string Email, string Password) 
+  public User(string? name, string? email, string? password) 
   {
-    this.Name = Name;
-    this.Email = Email;
-    this.Password = Password;
+    this.Name = name;
+    this.Email = email;
+    this.Password = password;
     this.Posts = new List<Post>();  
     this.Friends = new List<User>();
   }
+  public User(){}
 
   // Method to test adding another user as a friend
   public string AddFriend(User friend)
