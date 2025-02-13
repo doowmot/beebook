@@ -1,0 +1,57 @@
+html {
+    font-size: 14px;
+  }
+  
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  html {
+    position: relative;
+    min-height: 100%;
+  }
+  
+  body {
+    margin-bottom: 60px;
+  }
+  
+  /* Adding CSS for Settings */
+  .mysettings-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .mysettings-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .mysettings-form input:focus {
+    border-color: #F7D038;
+    outline: none;
+    box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+  }
+  
+  .mysettings-form input[type="submit"] {
+    background-color: #F7D038;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .mysettings-form input[type="submit"]:hover {
+    background-color: #EAC529;
+  }
+  

@@ -1,0 +1,26 @@
+
+<head>
+    <link rel="stylesheet" href="~/css/Settings.css" asp-append-version="true" />
+</head>
+
+<h1 id="title-name">My settings</h1>
+
+
+<div class="mysettings-form">
+    <h2>Hi, Bee</h2>
+    <h3>Would you like to change your settings?</h3>
+
+    <form action="/settings" method="post">
+        <input type="text" id="name" name="name" placeholder="Name" /><br>
+        <input type="email" id="email" name="email" placeholder="Email" /><br>
+        <input type="string" id="profile_picture" name="profile_picture" placeholder="Profile picture"/><br>
+        <input type="submit" id="submit" value="Save changes"/>
+    </form>
+
+
+
+    
+    <div>
+        <a href="/post">Back to your Hive</a>
+    </div>
+</div>

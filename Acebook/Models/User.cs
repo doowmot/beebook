@@ -1,5 +1,6 @@
 namespace acebook.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 public class User
 {
@@ -8,7 +9,10 @@ public class User
   public string? Name {get; set;}
   public string? Email {get; set;}
   public string? Password {get; set;}
+  public string? Profile_picture {get; set;}
   public ICollection<Post>? Posts {get; set;}
+
+  
   public ICollection<User>? Friends {get; set;}  // Created list to store all friends this user has added
 
   // Constructor so we can create new users
