@@ -24,21 +24,62 @@ public class UsersController : Controller
     [HttpPost]
     public RedirectResult Create(User user) {
         AcebookDbContext dbContext = new AcebookDbContext();
-        dbContext.Users.Add(user);
-        dbContext.SaveChanges();
-        return new RedirectResult("/signin");
-        AcebookDbContext dbContext = new AcebookDbContext();
-        dbContext.Users.Add(user);
+        if (dbContext.Users != null)
+        {
+            dbContext.Users.Add(user);
+        }
+        else
+        {
+            // Handle the case where Users is null
+            throw new InvalidOperationException("Users DbSet is null.");
+        }
         dbContext.SaveChanges();
         return new RedirectResult("/signin");
     }
+    
+    // [Route("/profile")]
+    // [HttpGet]
+    // public IActionResult Profile()
+    // {
+    //     return View();
+    // }
+    
+    [Route("/profile/{Id}")]
+    [HttpGet]
+    public IActionResult Profile(int Id)
+    {
+        int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
 
+        if (!loggedInUserId.HasValue)
+        {
+            return RedirectToAction("New", "Sessions"); // Redirect to login if not logged in
+        }
+
+        using (AcebookDbContext dbContext = new AcebookDbContext()) // Creating a new instance of DbContext
+        {
+            var user = dbContext.Users?.Find(Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new UserProfileViewModel
+            {
+            User = user,
+                IsOwnProfile = loggedInUserId.Value == Id
+            };
+
+            return View(model);
+        }
+    }
+    
     [Route("/settings")]
     [HttpGet]
     public IActionResult Settings()
     {
         return View();
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

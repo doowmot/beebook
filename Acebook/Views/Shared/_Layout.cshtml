@@ -29,7 +29,8 @@
                     <!-- 🔹 Check if NOT on /signin or /signup before showing Sign Out -->
                     @{
                         var currentPath = Context.Request.Path.ToString();
-                        var isLoggedIn = Context.Session.GetInt32("user_id") != null;
+                        var userId = Context.Session.GetInt32("user_id"); // Get logged-in user ID
+                        var isLoggedIn = userId != null;
                     }
 
                     @if (!currentPath.Equals("/signin", StringComparison.OrdinalIgnoreCase) &&
@@ -37,10 +38,19 @@
                     {
                         @if (isLoggedIn)
                         {
-                        <!-- Show Sign Out when user is logged in -->
+                            <!-- Profile and Settings Links -->
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Users" asp-action="Profile" asp-route-Id="@userId">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Settings">Settings</a>
+                            </li>
+                            <!-- Show Sign Out when user is logged in -->
                             <form asp-controller="Sessions" asp-action="Logout" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-outline-danger">Sign Out</button>
                             </form>
+                        </ul>
                         }
                         else
                         {
