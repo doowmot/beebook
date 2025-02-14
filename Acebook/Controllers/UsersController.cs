@@ -37,13 +37,6 @@ public class UsersController : Controller
         return new RedirectResult("/signin");
     }
     
-    // [Route("/profile")]
-    // [HttpGet]
-    // public IActionResult Profile()
-    // {
-    //     return View();
-    // }
-    
     [Route("/profile/{Id}")]
     [HttpGet]
     public IActionResult Profile(int Id)
@@ -62,11 +55,23 @@ public class UsersController : Controller
             {
                 return NotFound();
             }
+            // var friends = dbContext.Friends
+            //     .Where(f => f.UserId == Id)
+            //     .Select(f => f.FriendUser)
+            //     .ToList();
+
+        // Fetch Posts (Assumes a 'Posts' table with a foreign key 'UserId')
+            var posts = dbContext.Posts
+                .Where(p => p.UserId == Id) // Retrieve posts by user (where Id in Users matches UserId in Posts)
+                // .OrderByDescending(p => p.CreatedAt) // Show newest posts first
+                .ToList();
 
             var model = new UserProfileViewModel
             {
-            User = user,
-                IsOwnProfile = loggedInUserId.Value == Id
+                User = user,
+                IsOwnProfile = loggedInUserId.Value == Id,
+                // Friends = friends, 
+                Posts = posts
             };
 
             return View(model);
