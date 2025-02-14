@@ -10,8 +10,12 @@
 }
 else
 {
-    <p>You're viewing @Model.User.Name's profile.</p>
-    <!-- Render options like "Follow" or "Send Message" if it's someone else's profile -->
+    <div class="d-flex align-items-center">
+        <p>You're viewing @Model.User.Name's profile.</p>
+        <button id="friendButton" class="btn btn-primary ms-3" onclick="sendFriendRequest(@Model.User.Id)">
+            Add Friend
+        </button>
+    </div>
 }
 <!-- Split screen into two sections -->
 <div class="container mt-4">
