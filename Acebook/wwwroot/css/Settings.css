@@ -18,6 +18,26 @@ html {
   }
   
   /* Adding CSS for Settings */
+  /* This container will hold both the form and the picture */
+.settings-container {
+  display: flex; /* Flexbox layout */
+  justify-content: space-between; /* Space out the two sections */
+  gap: 20px; /* Space between the form and the picture */
+}
+
+/* Style the profile picture section */
+.profile-picture {
+  width: 40%; /* Adjust the width to your needs */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-picture img {
+  max-width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px; /* Optional: for rounded corners */
+}
   .mysettings-form {
     max-width: 400px;
     margin: 50px auto;

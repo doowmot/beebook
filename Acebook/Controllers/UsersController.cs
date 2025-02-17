@@ -1,6 +1,10 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using acebook.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace acebook.Controllers;
 
@@ -78,26 +82,7 @@ public class UsersController : Controller
         }
     }
     
-    [Route("/settings")]
-    [HttpGet]
-    public IActionResult Settings()
-    {
-        int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
 
-        if (!loggedInUserId.HasValue)
-            {
-                return RedirectToAction("New", "Sessions"); // Redirect to login if not logged in
-            }
-         using (AcebookDbContext dbContext = new AcebookDbContext()) // Creating a new instance of DbContext
-        {
-            var user = dbContext.Users?.Find(loggedInUserId);
-            var model = new SettingsViewModel
-            {
-                User = user
-            };
-            return View(model);
-        }
-    }  
 
     [Route("/notifications")]
     [HttpGet]

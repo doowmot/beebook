@@ -10,6 +10,11 @@ public class User
   public string? Email {get; set;}
   public string? Password {get; set;}
   // public string? Profile_picture {get; set;}
+  public User()
+  {
+    
+  }
+  
   public ICollection<Post>? Posts {get; set;}
 
   
