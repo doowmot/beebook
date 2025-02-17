@@ -4,6 +4,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+<script>
+function submitLike(event) {
+        event.preventDefault();
+
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+
+        const likesCountElement = document.getElementById('likes-count-' + formData.get('postId'));
+        //console.log(event)
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Update the likes count element's content with the new count from the server
+            likesCountElement.textContent = result;
+        })
+        .catch(error => {
+            // Error callback (optional)
+        });
+    }
+</script>
+
+
+
 </head>
 <body class="poppins-regular">
    <div class="master-div">
@@ -23,8 +51,17 @@
     {
     <div class="post">
         <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
-        <div class="like-box">
-            <img class="bee-like" src="@Url.Content("~/img/bee.png")" alt="image">
+     <div class="like-box">
+            <form action="/IncrementLike" method="post" onsubmit="preventDefaultAndSubmit(event)">
+        <input type="hidden" name="postId" value="@post.Id" />
+        <input class="bee-like" type="image" src="@Url.Content("~/img/bee.png")" alt="Like" class="like-button" onclick="submitLike(event)">
+            </form>
+    <div id="likes-count-@post.Id">
+        @post.LikesCount
+               @* <script> document.getElementById("likes-count-@post.Id").innerHTML = document.getElementById("likes-count-@post.Id").innerHTML;</script>  *@
+    </div>
+            
+    </div>
         </div>
           <div>
               <form action="/comments" method="post">
@@ -46,10 +83,7 @@
                 }
             }
         </div>
-    </div>
-}
+    }
 
 </div> 
 </body>
-
-
