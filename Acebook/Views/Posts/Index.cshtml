@@ -28,6 +28,63 @@ function submitLike(event) {
             // Error callback (optional)
         });
     }
+
+function deletePost(postId) {
+    console.log("Deleting post with ID: " + postId);
+
+    const requestData = JSON.stringify({ postId: postId });
+    console.log("Request body: ", requestData);  // Log request body for debugging
+
+    fetch('/DeletePost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: requestData // Send postId as JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response from server:', data); // Log the server response
+        if (data.success) {
+            // Successfully deleted post, now remove it from the UI
+            const postElement = document.getElementById('post-' + postId);  // Assuming each post has an ID
+            if (postElement) {
+                postElement.remove();  // Remove the post element from the DOM
+            }
+            // Fetch updated posts and update the UI
+            fetchPosts();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function fetchPosts() {
+    // Fetch the updated posts list
+    fetch('/posts')
+        .then(response => response.text())
+        .then(html => {
+            // Find the main-post container and extract the posts section from the HTML
+            const mainPostContainer = document.querySelector('.main-post');
+            
+            if (mainPostContainer) {
+                // Parse the returned HTML to get the updated posts content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Find the new posts container in the response (the part we want to update)
+                const newPosts = doc.querySelector('.main-post').innerHTML;
+                // Update only the posts part of the page
+                mainPostContainer.innerHTML = newPosts;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+        });
+}
 </script>
 
 
@@ -58,7 +115,7 @@ function submitLike(event) {
             </form>
     <div id="likes-count-@post.Id">
         @post.LikesCount
-               @* <script> document.getElementById("likes-count-@post.Id").innerHTML = document.getElementById("likes-count-@post.Id").innerHTML;</script>  *@
+               <button class="delete-post" onclick="deletePost(@post.Id)">Delete Post</button>
     </div>
             
     </div>
