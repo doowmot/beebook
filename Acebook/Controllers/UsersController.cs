@@ -65,15 +65,19 @@ public class UsersController : Controller
                             (f.UserId == loggedInUserId.Value && f.FriendId == Id))
                 .FirstOrDefault();
 
-            // Determine Friendship Status
-            FriendshipStatus friendshipStatus = friends?.Status ?? FriendshipStatus.None; // Default: No friendship
-
+            // Determine Friendship Status 
+            FriendStatus? friendStatus = null; // Default: null (meaning no status yet)
+        
+            if (friends != null)
+            {
+                friendStatus = friends.Status; // Use the actual status if a friendship exists
+            }
             var model = new UserProfileViewModel
             {
                 User = user,
                 IsOwnProfile = loggedInUserId.Value == Id,
                 Posts = posts,
-                FriendshipStatus = friendshipStatus // New: Pass friendship status to the view
+                FriendStatus = friendStatus // New: Pass friendship status to the view
             };
 
             return View(model);
