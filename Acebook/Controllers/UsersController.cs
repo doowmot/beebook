@@ -82,8 +82,22 @@ public class UsersController : Controller
     [HttpGet]
     public IActionResult Settings()
     {
-        return View();
-    }
+        int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
+
+        if (!loggedInUserId.HasValue)
+            {
+                return RedirectToAction("New", "Sessions"); // Redirect to login if not logged in
+            }
+         using (AcebookDbContext dbContext = new AcebookDbContext()) // Creating a new instance of DbContext
+        {
+            var user = dbContext.Users?.Find(loggedInUserId);
+            var model = new SettingsViewModel
+            {
+                User = user
+            };
+            return View(model);
+        }
+    }  
 
     [Route("/notifications")]
     [HttpGet]
