@@ -7,7 +7,7 @@ public class AcebookDbContext : DbContext
     public DbSet<User>? Users { get; set; }
     public DbSet<Comment>? Comments { get; set; }
 
-
+    public DbSet<UserLike>? UserLikes { get; set; }
 
     public string? DbPath { get; }
 
