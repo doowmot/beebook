@@ -1,0 +1,62 @@
+@using acebook.Models
+@model UserProfileViewModel // This tells Razor to look for UserProfileViewModel inside the acebook.Models namespace.
+
+<h1>@Model.User.Name's Profile</h1>
+
+@if (Model.IsOwnProfile)
+{
+    <p>Welcome to your profile!</p>
+    <!-- Render options to edit the profile, view posts, or any other personal settings -->
+}
+else
+{
+    <div class="d-flex align-items-center">
+        <p>You're viewing @Model.User.Name's profile.</p>
+        <button id="friendButton" class="btn btn-primary ms-3" onclick="sendFriendRequest(@Model.User.Id)">
+            Add Friend
+        </button>
+    </div>
+}
+<!-- Split screen into two sections -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Friends Section -->
+        <div class="col-md-6">
+            <h2>Friends</h2>
+            <ul class="list-group">
+                <p><Noframes> Friends yet</Noframes></p>
+                @* @if (Model.Friends != null && Model.Friends.Any())
+                {
+                    @foreach (var friend in Model.Friends)
+                    {
+                        <li class="list-group-item">@friend.Name</li>
+                    }
+                }
+                else
+                {
+                    <p>No friends yet.</p>
+                } *@
+            </ul>
+        </div>
+
+        <!-- Posts Section -->
+        <div class="col-md-6">
+            <h2>Posts</h2>
+            <div class="list-group">
+                @if (Model.Posts != null && Model.Posts.Any())
+                {
+                    @foreach (var post in Model.Posts)
+                    {
+                        <div class="list-group-item">
+                            <p>@post.Content</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No posts available.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

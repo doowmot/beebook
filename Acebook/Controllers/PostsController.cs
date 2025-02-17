@@ -42,7 +42,6 @@ public class PostsController : Controller
   }
 
 
-
     [Route("/posts")]
     [HttpPost]
     public RedirectResult Create(Post post) {

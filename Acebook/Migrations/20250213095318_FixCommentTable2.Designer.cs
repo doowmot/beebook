@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using acebook.Models;
@@ -11,9 +12,11 @@ using acebook.Models;
 namespace acebook.Migrations
 {
     [DbContext(typeof(AcebookDbContext))]
-    partial class AcebookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250213095318_FixCommentTable2")]
+    partial class FixCommentTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,15 +92,7 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -132,13 +127,6 @@ namespace acebook.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("acebook.Models.User", b =>
-                {
-                    b.HasOne("acebook.Models.User", null)
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("acebook.Models.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -146,8 +134,6 @@ namespace acebook.Migrations
 
             modelBuilder.Entity("acebook.Models.User", b =>
                 {
-                    b.Navigation("Friends");
-
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

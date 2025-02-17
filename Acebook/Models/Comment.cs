@@ -1,7 +1,9 @@
 namespace acebook.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Comment
+[Table("Comments")] // Added as it was appearing as 'comment' in Fliss database
+  public class Comment
 {
   [Key]
   public int Id {get; set;}
