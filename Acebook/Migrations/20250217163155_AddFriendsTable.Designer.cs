@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using acebook.Models;
@@ -11,9 +12,11 @@ using acebook.Models;
 namespace acebook.Migrations
 {
     [DbContext(typeof(AcebookDbContext))]
-    partial class AcebookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250217163155_AddFriendsTable")]
+    partial class AddFriendsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +65,8 @@ namespace acebook.Migrations
                     b.Property<int>("FriendId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -78,35 +80,6 @@ namespace acebook.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("acebook.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SenderId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("acebook.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -117,12 +90,6 @@ namespace acebook.Migrations
 
                     b.Property<string>("Content")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("DateTimeOfPost")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("LikesCount")
-                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -151,43 +118,9 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                    
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("acebook.Models.UserLike", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLikes");
-
                 });
 
             modelBuilder.Entity("acebook.Models.Comment", b =>
@@ -228,25 +161,6 @@ namespace acebook.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("acebook.Models.Notification", b =>
-                {
-                    b.HasOne("acebook.Models.User", "Sender")
-                        .WithMany("SentNotifications")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("acebook.Models.User", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sender");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("acebook.Models.Post", b =>
                 {
                     b.HasOne("acebook.Models.User", "User")
@@ -258,30 +172,9 @@ namespace acebook.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("acebook.Models.UserLike", b =>
-                {
-                    b.HasOne("acebook.Models.Post", "Post")
-                        .WithMany("UserLikes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("acebook.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("acebook.Models.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("UserLikes");
                 });
 
             modelBuilder.Entity("acebook.Models.User", b =>
@@ -290,11 +183,7 @@ namespace acebook.Migrations
 
                     b.Navigation("FriendsSent");
 
-                    b.Navigation("Notifications");
-
                     b.Navigation("Posts");
-
-                    b.Navigation("SentNotifications");
                 });
 #pragma warning restore 612, 618
         }
