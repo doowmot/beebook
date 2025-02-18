@@ -54,5 +54,11 @@ public class AcebookDbContext : DbContext
             .WithMany(u => u.FriendsReceived) // One user can receive multiple requests
             .HasForeignKey(f => f.FriendId)
             .OnDelete(DeleteBehavior.Restrict);
-}   
+        
+        modelBuilder.Entity<Friend>()
+            .Property(f => f.Status)
+            .HasConversion(
+                v => v.ToString(),                // Converts the enum to a string when saving to the database
+                v => (FriendStatus)Enum.Parse(typeof(FriendStatus), v));  // Converts the string back to enum when reading from the database
+    } 
 }

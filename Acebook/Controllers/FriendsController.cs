@@ -16,9 +16,12 @@ public class FriendsController : Controller
         _logger = logger;
     }
 
+    [Route("friends/sendfriendrequest")]
     [HttpPost]
     public IActionResult SendFriendRequest(int friendId)
     { 
+        Console.WriteLine("SendFriendRequest method triggered");
+        Console.WriteLine("Friend ID: " + friendId);
         AcebookDbContext dbContext = new AcebookDbContext();
         int currentUserId = HttpContext.Session.GetInt32("user_id").Value; // Gets the current user's id
         Friend friendRequest = new Friend // Creates a new friend request
@@ -29,6 +32,7 @@ public class FriendsController : Controller
         };
         dbContext.Friends.Add(friendRequest); // Adds new friend request to the database
         dbContext.SaveChanges(); // Saves friend request to database
+        Console.WriteLine("Friend request sent successfully.");
         return new RedirectResult("/profile/" + friendId); // After friend request sent, return/stay on profile of user friend request was sent to
     }
     [HttpPost]
