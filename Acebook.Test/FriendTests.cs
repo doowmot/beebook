@@ -80,6 +80,58 @@ public class FriendTests
         Assert.That(removedRequest, Is.Null);
     }
 
+    [Test]
+    public void TestFriendRequestCanBeAccepted()
+    {
+        // Create a new friend request
+        var friendRequest = new Friend
+        {
+            UserId = _user1.Id,
+            FriendId = _user2.Id,
+            Status = FriendStatus.Pending
+        };
+
+        // Save it to database
+        _dbContext.Friends.Add(friendRequest);
+        _dbContext.SaveChanges();
+
+        // Update status to Friends
+        friendRequest.Status = FriendStatus.Friends;
+        _dbContext.SaveChanges();
+
+        // Check if status was updated
+        var acceptedRequest = _dbContext.Friends
+            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+
+        Assert.That(acceptedRequest.Status, Is.EqualTo(FriendStatus.Friends));
+    }
+
+    [Test]
+    public void TestFriendRequestCanBeDeclined()
+    {
+        // Create a new friend request
+        var friendRequest = new Friend
+        {
+            UserId = _user1.Id,
+            FriendId = _user2.Id,
+            Status = FriendStatus.Pending
+        };
+
+        // Save it to database
+        _dbContext.Friends.Add(friendRequest);
+        _dbContext.SaveChanges();
+
+        // Update status to Declined
+        friendRequest.Status = FriendStatus.Declined;
+        _dbContext.SaveChanges();
+
+        // Check if status was updated
+        var declinedRequest = _dbContext.Friends
+            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+
+        Assert.That(declinedRequest.Status, Is.EqualTo(FriendStatus.Declined));
+    }
+
     [TearDown]
     public void TearDown()
     {
