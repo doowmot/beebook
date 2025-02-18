@@ -1,3 +1,25 @@
-<h1>
-    Notifications
-</h1>
+@model IEnumerable<acebook.Models.Notification>
+
+<h2>Your Notifications</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            <tr>
+                <td>@notification.Sender.Name</td>
+                <td>@notification.Sender.Name has sent you a friend request.</td>
+                <td>@notification.DateCreated.ToString("g")</td>
+                <td>@(notification.IsRead ? "Read" : "Unread")</td>
+            </tr>
+        }
+    </tbody>
+</table>

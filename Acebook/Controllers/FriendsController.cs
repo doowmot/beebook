@@ -48,6 +48,7 @@ public class FriendsController : Controller
 
         return new RedirectResult("/profile/" + friendId); // After friend request sent, return/stay on profile of user friend request was sent to
     }
+    [Route("friends/removefriendrequest")]
     [HttpPost]
     public IActionResult RemoveSentFriendRequest(int friendId)
     {
@@ -61,6 +62,9 @@ public class FriendsController : Controller
             dbContext.Friends.Remove(friendRequest); // Remove friend request from database
             dbContext.SaveChanges(); // Save changes
         }
+        var updatedUserProfile = dbContext.Users
+            .Where(u => u.Id == friendId)
+            .FirstOrDefault();
         return new RedirectResult("/profile/" + friendId); // After friend request removed, return/stay on profile of user friend request was removed from
     }
 }

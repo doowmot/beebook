@@ -12,7 +12,7 @@ public class Notification
     public int SenderId { get; set; } // The user who sent the friend request
     // public string Message { get; set; }
     public bool IsRead { get; set; } // To mark if the notification has been read
-    public DateTime DateCreated { get; set; } = DateTime.Now;
+    public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
     public virtual User User { get; set; }  // Receiver of the notification
     public virtual User Sender { get; set; }  // Sender of the friend request

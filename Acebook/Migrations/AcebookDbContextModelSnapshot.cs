@@ -148,17 +148,7 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-
                     b.HasKey("Id");
-
-                    b.ToTable("Users");
-                    
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -184,7 +174,6 @@ namespace acebook.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserLikes");
-
                 });
 
             modelBuilder.Entity("acebook.Models.Comment", b =>
