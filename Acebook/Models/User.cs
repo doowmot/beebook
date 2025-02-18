@@ -16,4 +16,13 @@ public class User
 
   // Navigation property for friends where the user is the receiver
   public ICollection<Friend> FriendsReceived { get; set; } = new List<Friend>();
+
+  public User(string name, string email, string password)
+  {
+      this.Name = name;
+      this.Email = email;
+      this.Password = password;
+      this.Posts = new List<Post>();
+  }
+
 }
