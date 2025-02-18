@@ -8,6 +8,7 @@ public class AcebookDbContext : DbContext
     public DbSet<Comment>? Comments { get; set; }
 
     public DbSet<Friend>? Friends { get ; set; }
+    public DbSet<Notification>? Notifications { get ; set; }
 
 
 
