@@ -82,8 +82,7 @@ public class UsersController : Controller
         }
     }
     
-
-
+    
     [Route("/notifications")]
     [HttpGet]
     public IActionResult Notifications()
