@@ -6,8 +6,9 @@ public class AcebookDbContext : DbContext
     public DbSet<Post>? Posts { get; set; }
     public DbSet<User>? Users { get; set; }
     public DbSet<Comment>? Comments { get; set; }
-
     public DbSet<UserLike>? UserLikes { get; set; }
+    public DbSet<Friend>? Friends { get ; set; }
+
 
     public string? DbPath { get; }
 
@@ -35,10 +36,22 @@ public class AcebookDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+    // Ensure Posts include Users automatically
         modelBuilder.Entity<Post>()
-          .Navigation(post => post.User)
-          .AutoInclude();
-    }
+            .Navigation(post => post.User)
+            .AutoInclude();
 
-    
+    // 🔥 Explicitly define the Friend relationships
+        modelBuilder.Entity<Friend>()
+            .HasOne(f => f.User)             // Friend request sender
+            .WithMany(u => u.FriendsSent)    // One user can send multiple requests
+            .HasForeignKey(f => f.UserId)    
+            .OnDelete(DeleteBehavior.Restrict); 
+
+        modelBuilder.Entity<Friend>()
+            .HasOne(f => f.FriendUser)       // Friend request receiver
+            .WithMany(u => u.FriendsReceived) // One user can receive multiple requests
+            .HasForeignKey(f => f.FriendId)
+            .OnDelete(DeleteBehavior.Restrict);
+}   
 }

@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
   public DateTime DateTime {get; set;}
 
  [Required]
+  [ForeignKey("User")]
   public int UserId { get; set; }
   public User? User {get; set;}
   // Foreign Key for Post
