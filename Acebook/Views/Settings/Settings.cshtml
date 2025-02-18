@@ -9,7 +9,7 @@
 <div class="settings-container">
     <!-- Profile Picture Section -->
     <div class="profile-picture">
-        <img src="path_to_picture.jpg" alt="Profile Picture" id="profile_picture">
+        <img src="@Url.Content(Model.ProfilePicturePath)" alt="Profile Picture" id="ProfilePicture">
     </div>
 
     <!-- Settings form  -->
@@ -18,18 +18,12 @@
     <h3>Would you like to change your settings?</h3>
 
     <form action="/settings" method="post" >
-    @* <form asp-action="/settings" method="post" enctype="multipart/form-data"> *@
         <label for="name">Name</label>
         <input type="text" id="name" name="name" value="@Model.User.Name" /><br>
         <label for="email">Email</label>
         <input type="email" id="email" name="email" value="@Model.User.Email" /><br>
-        @* <label for="profile_picture">Profile Picture</label>
-        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" /><br> *@
+        <label for="profile_picture">Profile Picture URL</label>
+        <input type="url" id="profilepicturepath" name="profilepicturepath" value="@Model.ProfilePicturePath" /><br>
         <input type="submit" id="submit" value="Save changes"/>
-    </form>
-
-    
-    <div>
-        <a href="/post">Back to your Hive</a>
-    </div>
+    </form>  
 </div>

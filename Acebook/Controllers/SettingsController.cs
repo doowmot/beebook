@@ -33,7 +33,7 @@ public class SettingsController : Controller
             var model = new SettingsViewModel
             {
                 User = user,
-                //ProfilePicturePath = user.ProfilePicturePath
+                ProfilePicturePath = user.ProfilePicturePath
             };
             return View(model);
         }
@@ -55,30 +55,7 @@ public class SettingsController : Controller
         // Update data
             loggedInUser.Name = model.Name;
             loggedInUser.Email = model.Email;
-        //user.profile_picture = model.Profile_picture;
-        // Handle file upload if a new picture is selected
-            // if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
-            // {
-            //     // Generate a unique file name for the uploaded picture
-            //     var fileName = Path.GetFileName(model.ProfilePicture.FileName);
-            //     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
-
-            //     // Ensure the uploads directory exists
-            //     var uploadsDir = Path.GetDirectoryName(filePath);
-            //     if (!Directory.Exists(uploadsDir))
-            //     {
-            //         Directory.CreateDirectory(uploadsDir);
-            //     }
-
-            //     // Save the file
-            //     using (var stream = new FileStream(filePath, FileMode.Create))
-            //     {
-            //         await model.ProfilePicture.CopyToAsync(stream);
-            //     }
-
-            //     // Save the file path to the user model (store relative URL)
-            //     loggedInUser.ProfilePcturePath = $"/uploads/{fileName}";
-            // }
+            loggedInUser.ProfilePicturePath = model.ProfilePicturePath;
 
         // Save changes to the database
         try
@@ -90,8 +67,6 @@ public class SettingsController : Controller
         catch (Exception)
         {
             throw new InvalidOperationException("Settings not updated.");
-            // return StatusCode(500, "Internal server error: " + ex.Message);
         }
-        // return View("Settings", model);
     }
 }

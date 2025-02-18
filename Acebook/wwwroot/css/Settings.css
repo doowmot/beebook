@@ -27,7 +27,7 @@ html {
 
 /* Style the profile picture section */
 .profile-picture {
-  width: 40%; /* Adjust the width to your needs */
+  width: 60%; /* Adjust the width to your needs */
   display: flex;
   justify-content: center;
   align-items: center;
