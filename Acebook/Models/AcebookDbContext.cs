@@ -60,5 +60,15 @@ public class AcebookDbContext : DbContext
             .HasConversion(
                 v => v.ToString(),                // Converts the enum to a string when saving to the database
                 v => (FriendStatus)Enum.Parse(typeof(FriendStatus), v));  // Converts the string back to enum when reading from the database
+        
+        modelBuilder.Entity<Notification>()
+            .HasOne(n => n.User)  // The user receiving the notification
+            .WithMany(u => u.Notifications) // A user can have multiple notifications
+            .HasForeignKey(n => n.UserId);
+
+        modelBuilder.Entity<Notification>()
+            .HasOne(n => n.Sender)  // The sender of the friend request
+            .WithMany(u => u.SentNotifications) // A user can send multiple notifications
+            .HasForeignKey(n => n.SenderId);
     } 
 }
