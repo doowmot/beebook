@@ -11,4 +11,7 @@ public class Post
   public int UserId {get; set;}
   public User? User {get; set;}
   public ICollection<Comment>? Comments {get; set;}
+
+  public int LikesCount { get; set; }
+   public ICollection<UserLike>? UserLikes {get; set;}
 }

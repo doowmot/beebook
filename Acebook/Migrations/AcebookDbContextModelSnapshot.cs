@@ -118,6 +118,9 @@ namespace acebook.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -145,9 +148,43 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                    
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("acebook.Models.UserLike", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLikes");
+
                 });
 
             modelBuilder.Entity("acebook.Models.Comment", b =>
@@ -218,9 +255,30 @@ namespace acebook.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("acebook.Models.UserLike", b =>
+                {
+                    b.HasOne("acebook.Models.Post", "Post")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("acebook.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("acebook.Models.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("UserLikes");
                 });
 
             modelBuilder.Entity("acebook.Models.User", b =>

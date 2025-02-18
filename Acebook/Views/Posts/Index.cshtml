@@ -4,6 +4,91 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+<script>
+function submitLike(event) {
+        event.preventDefault();
+
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+
+        const likesCountElement = document.getElementById('likes-count-' + formData.get('postId'));
+        //console.log(event)
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Update the likes count element's content with the new count from the server
+            likesCountElement.textContent = result;
+        })
+        .catch(error => {
+            // Error callback (optional)
+        });
+    }
+
+function deletePost(postId) {
+    console.log("Deleting post with ID: " + postId);
+
+    const requestData = JSON.stringify({ postId: postId });
+    console.log("Request body: ", requestData);  // Log request body for debugging
+
+    fetch('/DeletePost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: requestData // Send postId as JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response from server:', data); // Log the server response
+        if (data.success) {
+            // Successfully deleted post, now remove it from the UI
+            const postElement = document.getElementById('post-' + postId);  // Assuming each post has an ID
+            if (postElement) {
+                postElement.remove();  // Remove the post element from the DOM
+            }
+            // Fetch updated posts and update the UI
+            fetchPosts();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function fetchPosts() {
+    // Fetch the updated posts list
+    fetch('/posts')
+        .then(response => response.text())
+        .then(html => {
+            // Find the main-post container and extract the posts section from the HTML
+            const mainPostContainer = document.querySelector('.main-post');
+            
+            if (mainPostContainer) {
+                // Parse the returned HTML to get the updated posts content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Find the new posts container in the response (the part we want to update)
+                const newPosts = doc.querySelector('.main-post').innerHTML;
+                // Update only the posts part of the page
+                mainPostContainer.innerHTML = newPosts;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+        });
+}
+</script>
+
+
+
 </head>
 <body class="poppins-regular">
    <div class="master-div">
@@ -23,8 +108,17 @@
     {
     <div class="post">
         <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
-        <div class="like-box">
-            <img class="bee-like" src="@Url.Content("~/img/bee.png")" alt="image">
+     <div class="like-box">
+            <form action="/IncrementLike" method="post" onsubmit="preventDefaultAndSubmit(event)">
+        <input type="hidden" name="postId" value="@post.Id" />
+        <input class="bee-like" type="image" src="@Url.Content("~/img/bee.png")" alt="Like" class="like-button" onclick="submitLike(event)">
+            </form>
+    <div id="likes-count-@post.Id">
+        @post.LikesCount
+               <button class="delete-post" onclick="deletePost(@post.Id)">Delete Post</button>
+    </div>
+            
+    </div>
         </div>
           <div>
               <form action="/comments" method="post">
@@ -46,10 +140,7 @@
                 }
             }
         </div>
-    </div>
-}
+    }
 
 </div> 
 </body>
-
-
