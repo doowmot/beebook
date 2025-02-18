@@ -16,7 +16,21 @@ public class User
 
   // Navigation property for friends where the user is the receiver
   public ICollection<Friend> FriendsReceived { get; set; } = new List<Friend>();
+  public virtual ICollection<Notification> Notifications { get; set; } // Notifications received by this user
+  public virtual ICollection<Notification> SentNotifications { get; set; } // Notifications sent by this user
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 //   public ICollection<User>? Friends {get; set;}  // Created list to store all friends this user has added
