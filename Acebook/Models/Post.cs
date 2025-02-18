@@ -1,6 +1,7 @@
 namespace acebook.Models;
-using System.ComponentModel.DataAnnotations; // Needed for [Key] attribute
-using System.ComponentModel.DataAnnotations.Schema; // Needed for [ForeignKey attribute]
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Post
 {
@@ -13,5 +14,16 @@ public class Post
   public ICollection<Comment>? Comments {get; set;}
 
   public int LikesCount { get; set; }
-   public ICollection<UserLike>? UserLikes {get; set;}
+  public ICollection<UserLike>? UserLikes {get; set;}
+
+    private DateTime _createdAt = DateTime.UtcNow; // Always store in UTC
+
+    [Column("DateTimeOfPost")] // Maps to the correct DB column
+    public DateTime CreatedAt
+    {
+        get => _createdAt;
+        set => _createdAt = value != default 
+            ? DateTime.SpecifyKind(value, DateTimeKind.Utc) 
+            : DateTime.UtcNow; // Fallback to UtcNow if null/default
+    }
 }

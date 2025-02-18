@@ -24,5 +24,7 @@ public class User
       this.Password = password;
       this.Posts = new List<Post>();
   }
-
+  public virtual ICollection<Notification> Notifications { get; set; } // Notifications received by this user
+  public virtual ICollection<Notification> SentNotifications { get; set; } // Notifications sent by this user
 }
+
