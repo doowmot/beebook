@@ -55,7 +55,7 @@ public class SettingsController : Controller
         // Update data
             loggedInUser.Name = model.Name;
             loggedInUser.Email = model.Email;
-            loggedInUser.ProfilePicturePath = model.ProfilePicturePath;
+            loggedInUser.ProfilePicturePath = model.ProfilePicturePath??"https://images.unsplash.com/photo-1568526381923-caf3fd520382?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
         // Save changes to the database
         try
