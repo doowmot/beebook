@@ -6,9 +6,9 @@
 .comments{
     border-color: #1b6ec2;
     
-    margin-top: 15px;
+    margin-top: -5px;
     margin-bottom: 15px;
-    width: fit-content;
+    margin-left: -30px;
     border-radius: 10px;
     padding: 20px;
   }
@@ -16,6 +16,9 @@
 .post-area{
   background-color: rgba(157, 225, 246, 0.3);
   width: fit-content;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: larger;
 }
 
 .master-div {
@@ -27,6 +30,8 @@
   overflow-y: auto;
   max-height: 86vh; 
   scroll-padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 20px;
   scroll-padding-left: 20px;
 }
 .post-box {
@@ -42,14 +47,14 @@
 
 .write-post {
   border-radius: 10px;
-  padding: 20px 40px;
+  padding: 10px 30px;
   margin-right: 10px;
 }
 .post-box input[type="submit"] {
   background-color: #3868f7;
   color: rgb(255, 255, 255);
   border: none;
-  padding: 20px 40px;
+  padding: 10px 30px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 10px;
@@ -60,9 +65,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Change 'left' to 'flex-start' */
-  border-top: 1px solid #1b6ec2;
-  border-bottom: 1px solid #1b6ec2;
+  border-top: 1px solid #43270F;
+  border-bottom: 1px solid #43270F;
   margin-bottom: 10px;
+}
+.date-comment{
+  font-size: x-small;
+  color: #4b382a;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .main-post {
@@ -72,28 +85,50 @@
   left: 50%;
   transform: translate(-50%, -50%); */
 
- background-color: rgb(251, 238, 218); 
+  /* background-color: rgb(251, 238, 218); 
   padding: 20px 50px;
   border-radius: 20px;
-  box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+  box-shadow: 0 0 5px rgba(247, 208, 56, 0.6); */
 
+}
+
+.main-post{
+  
+    /* background-color: rgb(251, 238, 218);
+    padding: 20px 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 15px;  */
+}
+.single-post {
+  background-color: rgb(251, 238, 218); /* Same color */
+  padding: 20px 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(10, 10, 9, 0.25);
+  margin-bottom: 20px; /* Space between posts */
+  gap: 15px; /* Space between content within the post */
 }
 
 .one-comment {
-  background-color: rgb(250, 189, 98);
-  padding: 5px 40px;
-  border-radius: 20px;
-  margin: 10px;
-
-  position: relative;
+   background-color: rgb(250, 189, 98);
+  padding-bottom: -50px;
+  padding-left: 8px;
+  padding-right: 5px;
+  padding-top: 5px;
+  border-radius: 10px;
+  margin: 10px; 
+  
 }
+
 
 .login-form input:focus, .signup-form input:focus {
   border-color: #F7D038;
   outline: none;
   box-shadow: 0 0 5px rgba(247, 208, 56, 0.6);
 }
-
 
 /* image css */
 
@@ -102,3 +137,47 @@
   margin-top: 9px;
   margin-bottom: 5px;
 } 
+
+.delete-div{
+  padding-left: 395px;
+}
+.delete-post{
+  background-color: #f83535;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 5px;
+}
+
+.comment-dt{
+  font-size: x-small;
+  color: #4b382a;
+  padding-top: -10px;
+  padding-bottom: 1px;
+}
+
+.comment-form input[type="submit"] {
+  background-color: #a06000;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 5px;
+}
+
+.comment-form input[type="text"] {
+  background-color: #fdfdfd;
+  color: rgb(255, 255, 255);
+  border: 1px solid #43270F;
+  padding: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 5px;
+}
+
+/* ----- */
