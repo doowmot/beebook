@@ -13,16 +13,48 @@
     padding: 20px;
   }
 
+.user-img img{
+    width: 55px;  /* Ensures the image maintains its size */
+    height: 55px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image fills the circular shape properly */
+    margin-top: 13px;
+    
+  }
+.comment-img img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50% ;
+  object-fit: cover; 
+}
+
+  .line-up {
+    display: flex;
+    align-items: flex-start; /* Align image and text vertically */
+    gap: 10px; /* Space between image and text */
+    justify-content: flex-start;
+    margin-bottom: 12px;
+}
+  .post {
+    display: flex;
+    align-items: center; /* Aligns the image and text vertically */
+    gap: 10px; /* Space between image and post content */
+}
+
 .post-area{
-  background-color: rgba(157, 225, 246, 0.3);
+  background-color: rgba(157, 225, 246, 0);
   width: fit-content;
   padding: 10px;
+  margin-top: 12px;
+  margin-left: 5px;
   border-radius: 8px;
-  font-size: larger;
+  font-size: x-large;
+  flex: 1;/*this is added later */
+  
 }
 
 .master-div {
-  /* margin-top: 10px; */
+  margin-top: 8px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -34,8 +66,8 @@
   padding-right: 20px;
   scroll-padding-left: 20px;
 }
-.post-box {
 
+.post-box {
   background-color: rgb(255, 197, 71);
   margin-top: 10px; 
   margin-bottom: 20px;
@@ -64,10 +96,11 @@
   gap: 10px;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Change 'left' to 'flex-start' */
+  justify-content: flex-start; 
   border-top: 1px solid #43270F;
   border-bottom: 1px solid #43270F;
   margin-bottom: 10px;
+  max-height: 50px;
 }
 .date-comment{
   font-size: x-small;
@@ -139,8 +172,9 @@
 } 
 
 .delete-div{
-  padding-left: 395px;
+  padding-left: 380px;
 }
+
 .delete-post{
   background-color: #f83535;
   color: rgb(255, 255, 255);
@@ -156,6 +190,11 @@
   color: #4b382a;
   padding-top: -10px;
   padding-bottom: 1px;
+}
+.comment-form{
+  display: flex;
+  align-items: center; /* Aligns the image and form in a straight line */
+  gap: 10px; /* Adds spacing between the image and form */
 }
 
 .comment-form input[type="submit"] {
@@ -178,6 +217,8 @@
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 5px;
+  width: 383px;
 }
+
 
 /* ----- */

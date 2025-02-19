@@ -106,23 +106,33 @@ function fetchPosts() {
     
     @foreach (Post post in ViewBag.Posts)
     {
-        <div class="single-post">
+   <div class="single-post">
+       <div class="line-up">
+            <div class="user-img">
+                    <img src="https://picsum.photos/50" alt="User Picture">
+                     
+            </div>
+                    <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
+      </div>
+            <div class="date-comment">@post.CreatedAt</div>
     <div class="post">
-        <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
-        <div class="date-comment">@post.CreatedAt</div>
+        
      <div class="like-box">
             <form action="/IncrementLike" method="post" onsubmit="preventDefaultAndSubmit(event)">
         <input type="hidden" name="postId" value="@post.Id" />
         <input class="bee-like" type="image" src="@Url.Content("~/img/bee.png")" alt="Like" class="like-button" onclick="submitLike(event)">
             </form>
-    <div id="likes-count-@post.Id">
-        @post.LikesCount
-    </div>
+                <div id="likes-count-@post.Id">
+                    @post.LikesCount
+                </div>
     
           <div class="delete-div"><button class="delete-post" onclick="deletePost(@post.Id)">Delete Post</button> </div>  
     </div>
         </div>
           <div class="comment-form">
+             <div class="comment-img">
+                    <img src="https://fastly.picsum.photos/id/661/200/200.jpg?hmac=pTRumV7JHMWLu9tuOU6quaMWqF-oxcymEOAvPNfXG4I" alt="Comment Picture">
+            </div>
               <form action="/comments" method="post">
                   <input type="hidden" name="postId" value="@post.Id" /> <!-- Attach comment to post -->
                   <input type="text" name="commentContent" placeholder="Write a comment..." />
@@ -143,7 +153,7 @@ function fetchPosts() {
                 }
             }
         </div>
-        </div> 
+    </div> 
     }
 </div>
 
