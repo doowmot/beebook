@@ -22,8 +22,8 @@
     
   }
 .comment-img img{
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50% ;
   object-fit: cover; 
 }
@@ -153,7 +153,7 @@
   padding-top: 5px;
   border-radius: 10px;
   margin: 10px; 
-  
+  width: 500px;
 }
 
 
@@ -209,15 +209,21 @@
 }
 
 .comment-form input[type="text"] {
-  background-color: #fdfdfd;
-  color: rgb(255, 255, 255);
+  background-color: #fdfdfd; /* Keep the light background */
+  color: #000; 
   border: 1px solid #43270F;
   padding: 10px;
   margin-top: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 5px;
-  width: 383px;
+  width: 385px;
+}
+
+.main-comment{
+  display: flex;
+  align-items: center; /* Aligns the image and form in a straight line */
+  gap: 10px; 
 }
 
 

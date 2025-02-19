@@ -109,7 +109,7 @@ function fetchPosts() {
    <div class="single-post">
        <div class="line-up">
             <div class="user-img">
-                    <img src="https://picsum.photos/50" alt="User Picture">
+                    <img src="@post.User.ProfilePicturePath" alt="User Picture">
                      
             </div>
                     <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
@@ -130,10 +130,11 @@ function fetchPosts() {
     </div>
         </div>
           <div class="comment-form">
-             <div class="comment-img">
-                    <img src="https://fastly.picsum.photos/id/661/200/200.jpg?hmac=pTRumV7JHMWLu9tuOU6quaMWqF-oxcymEOAvPNfXG4I" alt="Comment Picture">
-            </div>
+             
               <form action="/comments" method="post">
+                @* <div class="user-img">
+                    <img src="" alt="User Picture">
+                </div> *@
                   <input type="hidden" name="postId" value="@post.Id" /> <!-- Attach comment to post -->
                   <input type="text" name="commentContent" placeholder="Write a comment..." />
                   <input type="submit" value="Comment" />
@@ -145,10 +146,15 @@ function fetchPosts() {
             {
                 foreach (Comment comment in post.Comments)
                 {
-                    <div class="one-comment">
-                        <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
-                        <p class="comment-dt">@comment.DateTime</p>
-                    </div>
+                        <div class="main-comment">
+                                <div class="comment-img">
+                                <img src="@comment.User.ProfilePicturePath" alt="Comment Picture">
+                                 </div>
+                                <div class="one-comment">
+                                    <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
+                                    <p class="comment-dt">@comment.DateTime</p>
+                                </div>
+                        </div>
                 
                 }
             }
