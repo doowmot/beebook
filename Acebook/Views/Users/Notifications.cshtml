@@ -1,3 +1,44 @@
-<h1>
-    Notifications
-</h1>
+@model IEnumerable<acebook.Models.Notification> // declares view will receive collecttion (IEnumerable) of Notification objects from the Notification Model
+
+<h2>Your Notifications</h2>
+
+@if (Model == null || !Model.Any()) // Model then refers to collection of Notification objects
+{
+    <p>No notifications found </p> // Returns no notifications if there's none in the db
+}
+else
+{
+<table class="table"> 
+    <thead> 
+        <tr>
+            <th>Sender</th> 
+            <th>Message</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            <tr>
+                <td>@notification.Sender.Name</td>
+                <td>@notification.Sender.Name has sent you a friend request.</td>
+                <td>@notification.DateCreated.ToString("g")</td>
+                <td>@(notification.IsRead ? "Read" : "Unread")</td>
+                <td>
+                    @if (!notification.IsRead)
+                    {
+                        <form method="post" asp-action="MarkAsRead" asp-route-notificationId="@notification.Id">
+                            <button type="submit" class="btn btn-info">Mark as Read</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span>Read</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody> 
+</table>
+}
