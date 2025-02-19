@@ -12,8 +12,8 @@ using acebook.Models;
 namespace acebook.Migrations
 {
     [DbContext(typeof(AcebookDbContext))]
-    [Migration("20250218151619_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250219135618_UserProfiles")]
+    partial class UserProfiles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,6 +121,10 @@ namespace acebook.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DateTimeOfPost");
+
                     b.Property<int>("LikesCount")
                         .HasColumnType("integer");
 
@@ -149,6 +153,9 @@ namespace acebook.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfilePicturePath")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

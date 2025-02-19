@@ -152,7 +152,6 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
-
                     b.Property<string>("ProfilePicturePath")
                         .HasColumnType("text");
 
