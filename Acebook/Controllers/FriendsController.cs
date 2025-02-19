@@ -9,9 +9,9 @@ namespace acebook.Controllers;
 
 public class FriendsController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<FriendsController> _logger;
 
-    public FriendsController(ILogger<HomeController> logger)
+    public FriendsController(ILogger<FriendsController> logger)
     {
         _logger = logger;
     }

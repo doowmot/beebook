@@ -9,16 +9,18 @@ namespace acebook.Controllers;
 
 public class NotificationsController : Controller
 {
-    private readonly AcebookDbContext _dbContext;
+    private readonly ILogger<NotificationsController> _logger;
 
-    public NotificationsController(AcebookDbContext dbContext)
+    public NotificationsController(ILogger<NotificationsController> logger)
     {
-        _dbContext = dbContext;
+        _logger = logger;
     }
 
     // Action to display notifications for the logged-in user
+    [Route("notifications/index")]
     public IActionResult Index()
     {
+        AcebookDbContext dbContext = new AcebookDbContext();
         int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
         Console.WriteLine($"Session User ID: {loggedInUserId}");
 
@@ -28,7 +30,7 @@ public class NotificationsController : Controller
         }
 
         Console.WriteLine($"Fetching notifications for User ID: {loggedInUserId.Value}");
-        var notifications = _dbContext.Notifications
+        var notifications = dbContext.Notifications
             .Include(n => n.Sender) // Eager load the Sender relationship
             .Where(n => n.UserId == loggedInUserId.Value) // Fetch notifications for the logged-in user
             .OrderByDescending(n => n.DateCreated) // Order notifications by most recent
@@ -40,11 +42,12 @@ public class NotificationsController : Controller
     }
     public IActionResult MarkAsRead(int notificationId)
     {
-        var notification = _dbContext.Notifications.Find(notificationId);
+        AcebookDbContext dbContext = new AcebookDbContext();
+        var notification = dbContext.Notifications.Find(notificationId);
         if (notification != null)
         {
             notification.IsRead = true;
-            _dbContext.SaveChanges();
+            dbContext.SaveChanges();
         }
     
     return RedirectToAction("Index");
