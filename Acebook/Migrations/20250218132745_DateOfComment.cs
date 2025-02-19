@@ -1,19 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace acebook.Migrations
 {
     /// <inheritdoc />
-    public partial class userTableUpdate : Migration
+    public partial class DateOfComment : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Profile_picture",
-                table: "Users",
-                type: "text",
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DateTimeOfPost",
+                table: "Posts",
+                type: "timestamp with time zone",
                 nullable: true);
         }
 
@@ -21,8 +22,8 @@ namespace acebook.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Profile_picture",
-                table: "Users");
+                name: "DateTimeOfPost",
+                table: "Posts");
         }
     }
 }

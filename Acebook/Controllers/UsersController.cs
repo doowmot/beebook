@@ -60,23 +60,29 @@ public class UsersController : Controller
             {
                 return NotFound();
             }
-            // var friends = dbContext.Friends
-            //     .Where(f => f.UserId == Id)
-            //     .Select(f => f.FriendUser)
-            //     .ToList();
-
-        // Fetch Posts (Assumes a 'Posts' table with a foreign key 'UserId')
-            var posts = dbContext.Posts
-                .Where(p => p.UserId == Id) // Retrieve posts by user (where Id in Users matches UserId in Posts)
-                // .OrderByDescending(p => p.CreatedAt) // Show newest posts first
+            var posts = dbContext.Posts // Fetches and lists a users own post by their user id 
+                .Where(p => p.UserId == Id) 
                 .ToList();
 
+            // Retrieve Friends where the current user is either sender or receiver
+            var friends = dbContext.Friends
+                .Where(f => (f.UserId == Id && f.FriendId == loggedInUserId.Value) ||
+                            (f.UserId == loggedInUserId.Value && f.FriendId == Id))
+                .FirstOrDefault();
+
+            // Determine Friendship Status 
+            FriendStatus? friendStatus = null; // Default: null (meaning no status yet)
+        
+            if (friends != null)
+            {
+                friendStatus = friends.Status; // Use the actual status if a friendship exists
+            }
             var model = new UserProfileViewModel
             {
                 User = user,
                 IsOwnProfile = loggedInUserId.Value == Id,
-                // Friends = friends, 
-                Posts = posts
+                Posts = posts,
+                FriendStatus = friendStatus // New: Pass friendship status to the view
             };
 
             return View(model);
