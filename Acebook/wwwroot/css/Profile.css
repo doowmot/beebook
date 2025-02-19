@@ -1,0 +1,57 @@
+.users-name {
+    background-color: rgb(255, 197, 71);
+    margin-top: 10px; 
+    margin-bottom: 20px;
+    margin-left: 30px; 
+    margin-right: 30px;
+    position: relative;
+    padding: 50px 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(119, 105, 77, 0.3);
+}
+.welcome-message {
+    background-color: rgb(254, 207, 76);
+    padding-bottom: 7px;
+    padding-left: 150px;
+    padding-right: 5px;
+    padding-top: 20px;
+    border-radius: 10px;
+    margin: 30px; 
+}
+.left, .right{
+    flex: 1;
+    width: fit-content;
+    background-color: rgb(251, 238, 218);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: larger;
+    display: flex;   
+    justify-content: left; 
+    align-items: flex-start;    
+}
+.left{
+    margin-right: 30px;
+}
+.friends{
+    background-color: rgba(157, 225, 246, 0.3);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: larger;
+}
+.posts{
+    background-color: rgba(157, 225, 246, 0.3);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: larger;
+}
+.list-group-item{
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.list-group {
+  border-radius: 10px;
+  padding: 10px 30px;
+  margin-right: 10px;
+}

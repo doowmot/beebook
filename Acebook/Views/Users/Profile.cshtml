@@ -1,12 +1,18 @@
 @using acebook.Models
 @model UserProfileViewModel // This tells Razor to look for UserProfileViewModel inside the acebook.Models namespace.
 
-<h1>@Model.User.Name's Profile</h1>
-
+<head>
+    <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true" />
+</head>
+    <div class="users-name">
+        <h1>@Model.User.Name's Profile</h1>
+    </div>
 @if (Model.IsOwnProfile)
 {
-    <p>Welcome to your profile!</p>
+    <div class="welcome-message">
+        <p>Welcome to your profile!</p>
     <!-- Render options to edit the profile, view posts, or any other personal settings -->
+    </div>
 }
 else
 {
@@ -41,45 +47,47 @@ else
     </div>
 }
 <!-- Split screen into two sections -->
-<div class="container mt-4">
-    <div class="row">
-        <!-- Friends Section -->
-        <div class="col-md-6">
-            <h2>Friends</h2>
-            <ul class="list-group">
-                <p><Noframes> Friends yet</Noframes></p>
-                @* @if (Model.Friends != null && Model.Friends.Any())
-                {
-                    @foreach (var friend in Model.Friends)
-                    {
-                        <li class="list-group-item">@friend.Name</li>
-                    }
-                }
-                else
-                {
-                    <p>No friends yet.</p>
-                } *@
-            </ul>
+<div class="row">
+    <!-- Friends Section -->
+    <div class="left ">
+        <div class="friends">
+        <h2>Friends</h2>
         </div>
+        <ul class="list-group">
+            <p><Noframes> Friends yet</Noframes></p>
+            @if (Model.Friends != null && Model.Friends.Any())
+            {
+                @foreach (var friend in Model.Friends)
+                {
+                    <li class="list-group-item">@friend.Name</li>
+                }
+            }
+            else
+            {
+                <p>No friends yet.</p>
+            }
+        </ul>
+    </div>
 
-        <!-- Posts Section -->
-        <div class="col-md-6">
+    <!-- Posts Section -->
+    <div class="right">  
+        <div class="posts">  
             <h2>Posts</h2>
-            <div class="list-group">
-                @if (Model.Posts != null && Model.Posts.Any())
+        </div>
+        <div class="list-group">
+            @if (Model.Posts != null && Model.Posts.Any())
+            {
+                @foreach (var post in Model.Posts)
                 {
-                    @foreach (var post in Model.Posts)
-                    {
-                        <div class="list-group-item">
-                            <p>@post.Content</p>
-                        </div>
-                    }
+                    <div class="list-group-item">
+                        <p>@post.Content</p>
+                    </div>
                 }
-                else
-                {
-                    <p>No posts available.</p>
-                }
-            </div>
+            }
+            else
+            {
+                <p>No posts available.</p>
+            }               
         </div>
     </div>
 </div>
