@@ -31,9 +31,9 @@ else
             }
             else if (Model.FriendStatus == FriendStatus.Friends) // Already friends
             {
-                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
+                <form method="post" asp-controller="Friends" asp-action="RemoveFriend">
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="btn btn-danger">Remove Friend Request</button>
+                    <button type="submit" class="btn btn-danger">Remove Friend</button>
                 </form>
             }
             <!-- Need to Add Remove friend button for once Request has accepted -->

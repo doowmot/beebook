@@ -12,7 +12,7 @@ using acebook.Models;
 namespace acebook.Migrations
 {
     [DbContext(typeof(AcebookDbContext))]
-    [Migration("20250219122534_InitialCreate")]
+    [Migration("20250219195746_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -91,9 +91,6 @@ namespace acebook.Migrations
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("SenderId")
                         .HasColumnType("integer");

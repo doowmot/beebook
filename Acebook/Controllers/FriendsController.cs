@@ -43,7 +43,6 @@ public class FriendsController : Controller
         {
             UserId = friendId,    // The user receiving the notification (FriendId)
             SenderId = currentUserId, // The user who sent the friend request (UserId)
-            // IsRead = false,       // Notification is unread by default
             DateCreated = DateTime.UtcNow // Set the current date/time for the notification
         };
         dbContext.Notifications.Add(notification); // Add the notification to the database
@@ -80,5 +79,29 @@ public class FriendsController : Controller
             .FirstOrDefault();
         return new RedirectResult("/profile/" + friendId); // After friend request removed, return/stay on profile of user friend request was removed from
     }
+    
+    [HttpPost]
+    [Route("Friends/RemoveFriend")]
+    public IActionResult RemoveFriend(int friendId)
+    {
+        Console.WriteLine("RemoveFriend method triggered");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        int currentUserId = HttpContext.Session.GetInt32("user_id").Value; // Get logged-in user ID
+
+        // Find the friend relationship (for both possible directions)
+        var friendship = dbContext.Friends
+            .Where(f => (f.UserId == currentUserId && f.FriendId == friendId) ||
+                        (f.UserId == friendId && f.FriendId == currentUserId))
+            .FirstOrDefault();
+
+        if (friendship != null) // If a friendship exists, remove it
+        {
+            dbContext.Friends.Remove(friendship);
+            dbContext.SaveChanges();
+            Console.WriteLine("Friend removed successfully.");
+        }
+
+        return new RedirectResult("/profile/" + friendId); // Stay on profile page
+}
 }
 
