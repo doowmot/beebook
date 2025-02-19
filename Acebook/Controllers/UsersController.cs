@@ -65,24 +65,35 @@ public class UsersController : Controller
                 .ToList();
 
             // Retrieve Friends where the current user is either sender or receiver
-            var friends = dbContext.Friends
+            var friendship = dbContext.Friends
                 .Where(f => (f.UserId == Id && f.FriendId == loggedInUserId.Value) ||
                             (f.UserId == loggedInUserId.Value && f.FriendId == Id))
                 .FirstOrDefault();
 
             // Determine Friendship Status 
             FriendStatus? friendStatus = null; // Default: null (meaning no status yet)
+
+            // Get confirmed friends list
+            var friends = dbContext.Friends
+                .Where(f => (f.UserId == Id || f.FriendId == Id) && f.Status == FriendStatus.Friends)
+                .Include(f => f.User)
+                .Include(f => f.FriendUser)
+                .ToList();
+            
+            // Convert to list of User objects
+            var friendUsers = friends.Select(f => f.UserId == Id ? f.FriendUser : f.User).ToList();
         
-            if (friends != null)
-            {
-                friendStatus = friends.Status; // Use the actual status if a friendship exists
-            }
+            // if (friends != null)
+            // {
+            //     friendStatus = friends.Status; // Use the actual status if a friendship exists
+            // }
             var model = new UserProfileViewModel
             {
                 User = user,
                 IsOwnProfile = loggedInUserId.Value == Id,
                 Posts = posts,
-                FriendStatus = friendStatus // New: Pass friendship status to the view
+                FriendStatus = friendStatus, // New: Pass friendship status to the view
+                Friends = friendUsers
             };
 
             return View(model);
@@ -90,12 +101,12 @@ public class UsersController : Controller
     }
     
     
-    [Route("/notifications")]
-    [HttpGet]
-    public IActionResult Notifications()
-    {
-        return View();
-    }
+    // [Route("/notifications")]
+    // [HttpGet]
+    // public IActionResult Notifications()
+    // {
+    //     return View();
+    // }
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

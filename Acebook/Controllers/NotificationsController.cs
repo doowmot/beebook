@@ -81,6 +81,7 @@ public class NotificationsController : Controller
         return RedirectToAction("Index", "Notifications");
     }
 
+    [Route("notifications/declinefriendrequest")]
     [HttpPost]
     public IActionResult DeclineFriendRequest(int notificationId)
     {
