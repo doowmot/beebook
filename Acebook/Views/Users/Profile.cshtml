@@ -10,11 +10,34 @@
 }
 else
 {
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-content-between">
         <p>You're viewing @Model.User.Name's profile.</p>
-        <button id="friendButton" class="btn btn-primary ms-3" onclick="sendFriendRequest(@Model.User.Id)">
-            Add Friend
-        </button>
+
+        <!-- Add/Remove Friend Button (Appears on top right) -->
+        <div class="d-flex align-items-center">
+            @if (Model.FriendStatus == null) // No friendship record - Not friends so 'add friend' button displayed
+            {
+                <form method="post" asp-controller="Friends" asp-action="SendFriendRequest"> 
+                    <input type="hidden" name="friendId" value="@Model.User.Id" />
+                    <button type="submit" class="btn btn-primary">Add Friend</button>
+                </form>
+            }
+            else if (Model.FriendStatus == FriendStatus.Pending) // Friend request sent, but not accepted yet
+            {
+                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
+                    <input type="hidden" name="friendId" value="@Model.User.Id" />
+                    <button type="submit" class="btn btn-warning">Cancel Friend Request</button>
+                </form>
+            }
+            else if (Model.FriendStatus == FriendStatus.Friends) // Already friends
+            {
+                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
+                    <input type="hidden" name="friendId" value="@Model.User.Id" />
+                    <button type="submit" class="btn btn-danger">Remove Friend Request</button>
+                </form>
+            }
+            <!-- Need to Add Remove friend button for once Request has accepted -->
+        </div>
     </div>
 }
 <!-- Split screen into two sections -->

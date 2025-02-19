@@ -9,43 +9,27 @@ public class User
   public string? Name {get; set;}
   public string? Email {get; set;}
   public string? Password {get; set;}
-  // public string? Profile_picture {get; set;}
-  public ICollection<Post>? Posts {get; set;}
-
+  public string? ProfilePicturePath { get; set; } //  URL of the profile picture
+  public User()
+  {
+    
+  }
   
-  public ICollection<User>? Friends {get; set;}  // Created list to store all friends this user has added
+  public ICollection<Post>? Posts {get; set;}
+  // Navigation property for friends where the user is the sender
+  public ICollection<Friend> FriendsSent { get; set; } = new List<Friend>();
 
-  // Constructor so we can create new users
-  public User(string? name, string? email, string? password) 
+  // Navigation property for friends where the user is the receiver
+  public ICollection<Friend> FriendsReceived { get; set; } = new List<Friend>();
+
+  public User(string name, string email, string password)
   {
-    this.Name = name;
-    this.Email = email;
-    this.Password = password;
-    this.Posts = new List<Post>();  
-    this.Friends = new List<User>();
+      this.Name = name;
+      this.Email = email;
+      this.Password = password;
+      this.Posts = new List<Post>();
   }
-  public User(){}
-
-  // Method to test adding another user as a friend
-  public string AddFriend(User friend)
-  {
-    if (Friends.Contains(friend))
-    {
-        return "Error: This person is already a friend";
-    }
-    Friends.Add(friend);
-        return "Friend added successfully";
-  }    
-
-  // Method to test removing another user as a friend
-  public string RemoveFriend(User friend)
-  {
-      if (!Friends.Contains(friend))
-      {
-          return "Error: Cannot remove this person as they are not a friend";
-      }
-      Friends.Remove(friend);
-      return "Friend removed successfully";
-  }
-
+  public virtual ICollection<Notification> Notifications { get; set; } // Notifications received by this user
+  public virtual ICollection<Notification> SentNotifications { get; set; } // Notifications sent by this user
 }
+

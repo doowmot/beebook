@@ -1,6 +1,10 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using acebook.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace acebook.Controllers;
 
@@ -26,6 +30,7 @@ public class UsersController : Controller
         AcebookDbContext dbContext = new AcebookDbContext();
         if (dbContext.Users != null)
         {
+            user.ProfilePicturePath = "https://images.unsplash.com/photo-1568526381923-caf3fd520382?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
             dbContext.Users.Add(user);
         }
         else
@@ -55,50 +60,36 @@ public class UsersController : Controller
             {
                 return NotFound();
             }
-            // var friends = dbContext.Friends
-            //     .Where(f => f.UserId == Id)
-            //     .Select(f => f.FriendUser)
-            //     .ToList();
-
-        // Fetch Posts (Assumes a 'Posts' table with a foreign key 'UserId')
-            var posts = dbContext.Posts
-                .Where(p => p.UserId == Id) // Retrieve posts by user (where Id in Users matches UserId in Posts)
-                // .OrderByDescending(p => p.CreatedAt) // Show newest posts first
+            var posts = dbContext.Posts // Fetches and lists a users own post by their user id 
+                .Where(p => p.UserId == Id) 
                 .ToList();
 
+            // Retrieve Friends where the current user is either sender or receiver
+            var friends = dbContext.Friends
+                .Where(f => (f.UserId == Id && f.FriendId == loggedInUserId.Value) ||
+                            (f.UserId == loggedInUserId.Value && f.FriendId == Id))
+                .FirstOrDefault();
+
+            // Determine Friendship Status 
+            FriendStatus? friendStatus = null; // Default: null (meaning no status yet)
+        
+            if (friends != null)
+            {
+                friendStatus = friends.Status; // Use the actual status if a friendship exists
+            }
             var model = new UserProfileViewModel
             {
                 User = user,
                 IsOwnProfile = loggedInUserId.Value == Id,
-                // Friends = friends, 
-                Posts = posts
+                Posts = posts,
+                FriendStatus = friendStatus // New: Pass friendship status to the view
             };
 
             return View(model);
         }
     }
     
-    [Route("/settings")]
-    [HttpGet]
-    public IActionResult Settings()
-    {
-        int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
-
-        if (!loggedInUserId.HasValue)
-            {
-                return RedirectToAction("New", "Sessions"); // Redirect to login if not logged in
-            }
-         using (AcebookDbContext dbContext = new AcebookDbContext()) // Creating a new instance of DbContext
-        {
-            var user = dbContext.Users?.Find(loggedInUserId);
-            var model = new SettingsViewModel
-            {
-                User = user
-            };
-            return View(model);
-        }
-    }  
-
+    
     [Route("/notifications")]
     [HttpGet]
     public IActionResult Notifications()
