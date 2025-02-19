@@ -48,7 +48,7 @@ else
             <h2>Friends</h2>
             <ul class="list-group">
                 <p><Noframes> Friends yet</Noframes></p>
-                @* @if (Model.Friends != null && Model.Friends.Any())
+                @if (Model.Friends != null && Model.Friends.Any())
                 {
                     @foreach (var friend in Model.Friends)
                     {
@@ -58,7 +58,7 @@ else
                 else
                 {
                     <p>No friends yet.</p>
-                } *@
+                }
             </ul>
         </div>
 

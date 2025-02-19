@@ -43,7 +43,7 @@ public class FriendsController : Controller
         {
             UserId = friendId,    // The user receiving the notification (FriendId)
             SenderId = currentUserId, // The user who sent the friend request (UserId)
-            IsRead = false,       // Notification is unread by default
+            // IsRead = false,       // Notification is unread by default
             DateCreated = DateTime.UtcNow // Set the current date/time for the notification
         };
         dbContext.Notifications.Add(notification); // Add the notification to the database
