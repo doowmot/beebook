@@ -6,137 +6,345 @@ using Microsoft.EntityFrameworkCore;
 
 public class FriendTests
 {
-    private AcebookDbContext _dbContext;
-    private User _user1;
-    private User _user2;
-
-    [SetUp]
-    public void Setup()
-    {
-        // Set the environment variable for tests
-        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
-        
-        // Create fresh database for each test
-        _dbContext = new AcebookDbContext();
-        
-        // Ensure database exists
-        _dbContext.Database.EnsureDeleted(); // Start fresh
-        _dbContext.Database.EnsureCreated(); // Create the database with all tables
-
-        // Create two test users
-        _user1 = new User("Test User 1", "test1@example.com", "password123");
-        _user2 = new User("Test User 2", "test2@example.com", "password456");
-        
-        // Add users to database
-        _dbContext.Users.Add(_user1);
-        _dbContext.Users.Add(_user2);
-        _dbContext.SaveChanges();
-    }
-
     [Test]
     public void TestFriendRequestIsSavedToDatabase()
     {
-        // Create a new friend request
-        var friendRequest = new Friend
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST
+        Friend friendRequest = new Friend
         {
-            UserId = _user1.Id,        // From user1
-            FriendId = _user2.Id,      // To user2
+            UserId = user.Id,          // The current user's id (sender)
+            FriendId = friendUser.Id,  // The friend's id (receiver)
             Status = FriendStatus.Pending
         };
 
-        // Save it to database
-        _dbContext.Friends.Add(friendRequest);
-        _dbContext.SaveChanges();
+        // TEST ACTIONS
+        dbContext.Friends.Add(friendRequest);
+        dbContext.SaveChanges();
 
-        // Check if it exists in database
-        var savedRequest = _dbContext.Friends
-            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+        // VERIFY RESULTS
+        Friend savedRequest = dbContext.Friends
+            .FirstOrDefault(fr => fr.UserId == user.Id && fr.FriendId == friendUser.Id);
 
-        Assert.That(savedRequest, Is.Not.Null);
-        Assert.That(savedRequest.Status, Is.EqualTo(FriendStatus.Pending));
+        Assert.That(savedRequest, Is.Not.Null, 
+            "Friend request should be found in the database");
+        Assert.That(savedRequest.Status, Is.EqualTo(FriendStatus.Pending), 
+            "Friend request status should be Pending");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 
     [Test]
     public void TestFriendRequestCanBeRemoved()
     {
-        // First create and save a friend request
-        var friendRequest = new Friend
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST
+        Friend friendRequest = new Friend
         {
-            UserId = _user1.Id,
-            FriendId = _user2.Id,
+            UserId = user.Id,
+            FriendId = friendUser.Id,
             Status = FriendStatus.Pending
         };
-        _dbContext.Friends.Add(friendRequest);
-        _dbContext.SaveChanges();
+        dbContext.Friends.Add(friendRequest);
+        dbContext.SaveChanges();
 
-        // Remove the friend request
-        _dbContext.Friends.Remove(friendRequest);
-        _dbContext.SaveChanges();
+        // TEST ACTIONS
+        dbContext.Friends.Remove(friendRequest);
+        dbContext.SaveChanges();
 
-        // Check it's gone from database
-        var removedRequest = _dbContext.Friends
-            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+        // VERIFY RESULTS
+        Friend removedRequest = dbContext.Friends
+            .FirstOrDefault(fr => fr.UserId == user.Id && fr.FriendId == friendUser.Id);
         
-        Assert.That(removedRequest, Is.Null);
+        Assert.That(removedRequest, Is.Null, 
+            "Friend request should no longer exist in the database");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 
     [Test]
     public void TestFriendRequestCanBeAccepted()
     {
-        // Create a new friend request
-        var friendRequest = new Friend
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST
+        Friend friendRequest = new Friend
         {
-            UserId = _user1.Id,
-            FriendId = _user2.Id,
+            UserId = user.Id,
+            FriendId = friendUser.Id,
             Status = FriendStatus.Pending
         };
+        dbContext.Friends.Add(friendRequest);
+        dbContext.SaveChanges();
 
-        // Save it to database
-        _dbContext.Friends.Add(friendRequest);
-        _dbContext.SaveChanges();
-
-        // Update status to Friends
+        // TEST ACTIONS
         friendRequest.Status = FriendStatus.Friends;
-        _dbContext.SaveChanges();
+        dbContext.SaveChanges();
 
-        // Check if status was updated
-        var acceptedRequest = _dbContext.Friends
-            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+        // VERIFY RESULTS
+        Friend acceptedRequest = dbContext.Friends
+            .FirstOrDefault(fr => fr.UserId == user.Id && fr.FriendId == friendUser.Id);
 
-        Assert.That(acceptedRequest.Status, Is.EqualTo(FriendStatus.Friends));
+        Assert.That(acceptedRequest.Status, Is.EqualTo(FriendStatus.Friends),
+            "Friend request status should be changed to Friends when accepted");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 
     [Test]
     public void TestFriendRequestCanBeDeclined()
     {
-        // Create a new friend request
-        var friendRequest = new Friend
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST
+        Friend friendRequest = new Friend
         {
-            UserId = _user1.Id,
-            FriendId = _user2.Id,
+            UserId = user.Id,
+            FriendId = friendUser.Id,
             Status = FriendStatus.Pending
         };
+        dbContext.Friends.Add(friendRequest);
+        dbContext.SaveChanges();
 
-        // Save it to database
-        _dbContext.Friends.Add(friendRequest);
-        _dbContext.SaveChanges();
-
-        // Update status to Declined
+        // TEST ACTIONS
         friendRequest.Status = FriendStatus.Declined;
-        _dbContext.SaveChanges();
+        dbContext.SaveChanges();
 
-        // Check if status was updated
-        var declinedRequest = _dbContext.Friends
-            .FirstOrDefault(f => f.UserId == _user1.Id && f.FriendId == _user2.Id);
+        // VERIFY RESULTS
+        Friend declinedRequest = dbContext.Friends
+            .FirstOrDefault(fr => fr.UserId == user.Id && fr.FriendId == friendUser.Id);
 
-        Assert.That(declinedRequest.Status, Is.EqualTo(FriendStatus.Declined));
+        Assert.That(declinedRequest.Status, Is.EqualTo(FriendStatus.Declined),
+            "Friend request status should be changed to Declined when rejected");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 
-    [TearDown]
-    public void TearDown()
+    [Test]
+    public void TestNotificationIsCreatedWithFriendRequest()
     {
-        // Clean up after each test
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Dispose();
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST AND NOTIFICATION
+        Friend friendRequest = new Friend
+        {
+            UserId = user.Id,
+            FriendId = friendUser.Id,
+            Status = FriendStatus.Pending
+        };
+        dbContext.Friends.Add(friendRequest);
+
+        Notification notification = new Notification
+        {
+            UserId = friendUser.Id,
+            SenderId = user.Id,
+            IsRead = false,
+            DateCreated = DateTime.UtcNow  // Changed to UTC time
+        };
+        dbContext.Notifications.Add(notification);
+        dbContext.SaveChanges();
+
+        // VERIFY RESULTS
+        Notification savedNotification = dbContext.Notifications
+            .FirstOrDefault(n => n.UserId == friendUser.Id && n.SenderId == user.Id);
+
+        Assert.That(savedNotification, Is.Not.Null,
+            "Notification should be created when friend request is sent");
+        Assert.That(savedNotification.IsRead, Is.False,
+            "New notification should be unread");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
+    }
+
+    [Test]
+    public void TestFriendRequestNavigationPropertiesAreCorrect()
+    {
+        // SETUP DATABASE
+        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+        AcebookDbContext dbContext = new AcebookDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
+        // SETUP USERS
+        User user = new User("Test User 1", "test1@example.com", "password123");
+        User friendUser = new User("Test User 2", "test2@example.com", "password456");
+        dbContext.Users.Add(user);
+        dbContext.Users.Add(friendUser);
+        dbContext.SaveChanges();
+
+        // SETUP FRIEND REQUEST
+        Friend friendRequest = new Friend
+        {
+            UserId = user.Id,
+            FriendId = friendUser.Id,
+            Status = FriendStatus.Pending
+        };
+        dbContext.Friends.Add(friendRequest);
+        dbContext.SaveChanges();
+
+        // VERIFY RESULTS
+        Friend savedRequest = dbContext.Friends
+            .Include(f => f.User)
+            .Include(f => f.FriendUser)
+            .FirstOrDefault(fr => fr.UserId == user.Id && fr.FriendId == friendUser.Id);
+
+        Assert.That(savedRequest.User.Email, Is.EqualTo("test1@example.com"),
+            "User navigation property should point to correct sender");
+        Assert.That(savedRequest.FriendUser.Email, Is.EqualTo("test2@example.com"),
+            "FriendUser navigation property should point to correct receiver");
+
+        // CLEANUP
+        dbContext.Database.EnsureDeleted();
+        dbContext.Dispose();
     }
 }
+
+
+   // [Test]
+    // public void TestCannotSendFriendRequestToSelf()
+    // {
+    //     // SETUP DATABASE
+    //     Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+    //     AcebookDbContext dbContext = new AcebookDbContext();
+    //     dbContext.Database.EnsureDeleted();
+    //     dbContext.Database.EnsureCreated();
+
+    //     // SETUP USER
+    //     User user = new User("Test User 1", "test1@example.com", "password123");
+    //     dbContext.Users.Add(user);
+    //     dbContext.SaveChanges();
+
+    //     // VERIFY RESULTS - Check that we can't add a self-referencing request
+    //     int initialCount = dbContext.Friends.Count();
+        
+    //     Friend selfFriendRequest = new Friend
+    //     {
+    //         UserId = user.Id,
+    //         FriendId = user.Id,
+    //         Status = FriendStatus.Pending
+    //     };
+    //     dbContext.Friends.Add(selfFriendRequest);
+    //     dbContext.SaveChanges();
+
+    //     int finalCount = dbContext.Friends.Count();
+    //     Assert.That(finalCount, Is.EqualTo(initialCount),
+    //         "Should not allow friend request to self");
+
+    //     // CLEANUP
+    //     dbContext.Database.EnsureDeleted();
+    //     dbContext.Dispose();
+    // }
+
+    // [Test]
+    // public void TestDuplicateFriendRequestsAreNotAllowed()
+    // {
+    //     // SETUP DATABASE
+    //     Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
+    //     AcebookDbContext dbContext = new AcebookDbContext();
+    //     dbContext.Database.EnsureDeleted();
+    //     dbContext.Database.EnsureCreated();
+
+    //     // SETUP USERS
+    //     User user = new User("Test User 1", "test1@example.com", "password123");
+    //     User friendUser = new User("Test User 2", "test2@example.com", "password456");
+    //     dbContext.Users.Add(user);
+    //     dbContext.Users.Add(friendUser);
+    //     dbContext.SaveChanges();
+
+    //     // SETUP FIRST FRIEND REQUEST
+    //     Friend firstFriendRequest = new Friend
+    //     {
+    //         UserId = user.Id,
+    //         FriendId = friendUser.Id,
+    //         Status = FriendStatus.Pending
+    //     };
+    //     dbContext.Friends.Add(firstFriendRequest);
+    //     dbContext.SaveChanges();
+
+    //     // VERIFY RESULTS - Check that we can't add a duplicate request
+    //     int initialCount = dbContext.Friends.Count();
+        
+    //     Friend duplicateFriendRequest = new Friend
+    //     {
+    //         UserId = user.Id,
+    //         FriendId = friendUser.Id,
+    //         Status = FriendStatus.Pending
+    //     };
+    //     dbContext.Friends.Add(duplicateFriendRequest);
+    //     dbContext.SaveChanges();
+
+    //     int finalCount = dbContext.Friends.Count();
+    //     Assert.That(finalCount, Is.EqualTo(initialCount), 
+    //         "Should not allow duplicate friend requests between the same users");
+
+    //     // CLEANUP
+    //     dbContext.Database.EnsureDeleted();
+    //     dbContext.Dispose();
+    // }
