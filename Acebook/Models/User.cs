@@ -9,7 +9,12 @@ public class User
   public string? Name {get; set;}
   public string? Email {get; set;}
   public string? Password {get; set;}
-  // public string? Profile_picture {get; set;}
+  public string? ProfilePicturePath { get; set; } //  URL of the profile picture
+  public User()
+  {
+    
+  }
+  
   public ICollection<Post>? Posts {get; set;}
   // Navigation property for friends where the user is the sender
   public ICollection<Friend> FriendsSent { get; set; } = new List<Friend>();

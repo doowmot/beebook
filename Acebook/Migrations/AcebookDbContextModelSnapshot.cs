@@ -118,8 +118,9 @@ namespace acebook.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DateTimeOfPost")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DateTimeOfPost");
 
                     b.Property<int>("LikesCount")
                         .HasColumnType("integer");
@@ -151,17 +152,10 @@ namespace acebook.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<string>("ProfilePicturePath")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.ToTable("Users");
-                    
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -187,7 +181,6 @@ namespace acebook.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserLikes");
-
                 });
 
             modelBuilder.Entity("acebook.Models.Comment", b =>
