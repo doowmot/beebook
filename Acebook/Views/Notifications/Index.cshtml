@@ -24,18 +24,13 @@ else
                 <td>@notification.Sender.Name</td>
                 <td>@notification.Sender.Name has sent you a friend request.</td>
                 <td>@notification.DateCreated.ToString("g")</td>
-                <td>@(notification.IsRead ? "Read" : "Unread")</td>
                 <td>
-                    @if (!notification.IsRead)
-                    {
-                        <form method="post" asp-action="MarkAsRead" asp-route-notificationId="@notification.Id">
-                            <button type="submit" class="btn btn-info">Mark as Read</button>
+                        <form method="post" asp-controller="Notifications" asp-action="AcceptFriendRequest" asp-route-notificationId="@notification.Id">
+                            <button type="submit" class="btn btn-success">Accept</button>
                         </form>
-                    }
-                    else
-                    {
-                        <span>Read</span>
-                    }
+                        <form method="post" asp-controller="Notifications" asp-action="DeclineFriendRequest" asp-route-notificationId="@notification.Id">
+                            <button type="submit" class="btn btn-danger">Decline</button>
+                        </form>
                 </td>
             </tr>
         }
