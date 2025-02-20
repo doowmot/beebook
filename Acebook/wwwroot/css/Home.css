@@ -1,0 +1,32 @@
+body {
+    display: block;
+}
+
+nav {
+    width: 100%; /* Ensures navbar spans the full width */
+
+}
+
+.big-box {
+    background-color:  rgb(255, 197, 71);
+    width: 80vw;
+    height: 70vh;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px; /* Ensures some space between navbar and content */
+}
+
+.small-box {
+    background-color:  rgb(251, 238, 218);
+    width: 60%;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
