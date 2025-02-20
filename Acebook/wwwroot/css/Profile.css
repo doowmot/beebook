@@ -1,3 +1,9 @@
+.poppins-regular {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
 .users-name {
     background-color: rgb(255, 197, 71);
     margin-top: 10px; 

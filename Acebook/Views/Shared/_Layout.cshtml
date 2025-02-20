@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/acebook.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bee.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light navbar-color border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">acebook</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -61,8 +62,8 @@
                         else
                         {
                             <!-- Show Sign In and Sign Up buttons when user is logged out -->
-                            <a href="/signin" class="btn btn-outline-primary">Sign In</a>
-                            <a href="/signup" class="btn btn-outline-success">Sign Up</a>
+                            <a href="/signin" class="btn btn-colour">Sign In</a>
+                            <a href="/signup" class="btn btn-colour-Signup">Sign Up</a>
                         }
                     }
                 </div>
