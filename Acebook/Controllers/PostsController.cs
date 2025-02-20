@@ -33,8 +33,9 @@ public class PostsController : Controller
       AcebookDbContext dbContext = new AcebookDbContext();
       
       List<Post> posts = dbContext.Posts
-          .Include(p => p.Comments) // Include related comments
-          .ThenInclude(c => c.User) // Include user info for comments
+          .Include(p => p.Comments)
+          .ThenInclude(c => c.User)
+          .OrderByDescending(p => p.CreatedAt)
           .ToList();
 
       ViewBag.Posts = posts;
