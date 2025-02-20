@@ -75,6 +75,16 @@ public class NotificationsController : Controller
             return NotFound("Friend request not found.");
         }
         friendRequest.Status = FriendStatus.Friends; // Accepts friend request
+        // int changes = dbContext.SaveChanges(); // Save changes to database
+
+        // if (changes > 0) 
+        // {
+        //     Console.WriteLine("Database successfully updated!");
+        // }
+        // else 
+        // {
+        //     Console.WriteLine("Warning: Database update did not save.");
+        // }       
         dbContext.Notifications.Remove(notification); // Removes notification
         dbContext.SaveChanges(); // Save changes to database
         Console.WriteLine("Friend request accepted and notification deleted.");
@@ -94,21 +104,20 @@ public class NotificationsController : Controller
             .Where(n => n.Id == notificationId)
             .OrderByDescending(n => n.DateCreated)
             .FirstOrDefault();
-
         if (notification == null)
         {
             return NotFound("Notification not found.");
         } 
-        // Find the corresponding friend request
+        // Find and remove the corresponding friend request
         var friendRequest = dbContext.Friends
             .Where(fr => fr.UserId == notification.SenderId && fr.FriendId == notification.UserId)
             .FirstOrDefault();
         
-        if (friendRequest == null)
+        if (friendRequest != null)
         {
-            return NotFound("Friend request not found.");
+            dbContext.Friends.Remove(friendRequest); // Removes request from db
         }
-        friendRequest.Status = FriendStatus.Declined; // Accepts friend request
+        // friendRequest.Status = FriendStatus.Declined; // Accepts friend request
         dbContext.Notifications.Remove(notification); // Removes notification
         dbContext.SaveChanges(); // Save changes to database
         return RedirectToAction("Index", "Notifications");

@@ -12,7 +12,7 @@ using acebook.Models;
 namespace acebook.Migrations
 {
     [DbContext(typeof(AcebookDbContext))]
-    [Migration("20250219195746_InitialCreate")]
+    [Migration("20250220100531_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

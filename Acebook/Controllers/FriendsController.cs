@@ -50,35 +50,36 @@ public class FriendsController : Controller
 
         Console.WriteLine("Notification for friend request sent.");
 
-        return new RedirectResult("/profile/" + friendId); // After friend request sent, return/stay on profile of user friend request was sent to
+        return RedirectToAction("Profile", "Users", new { id = friendId });
+        // return new RedirectResult("/profile/" + friendId); // After friend request sent, return/stay on profile of user friend request was sent to
     }
-    [Route("friends/removefriendrequest")]
-    [HttpPost]
-    public IActionResult RemoveSentFriendRequest(int friendId)
-    {
-        Console.WriteLine("RemoveSentFriendRequest method triggered");
-        AcebookDbContext dbContext = new AcebookDbContext();
-        int currentUserId = HttpContext.Session.GetInt32("user_id").Value; // Gets the current user's id
-        Friend friendRequest = null;
-        if (dbContext.Friends != null)
-        {
-            Console.WriteLine($"CurrentUserId: {currentUserId}, FriendId: {friendId}");
-            friendRequest = dbContext.Friends // Finds the friend request in the database
-                .Where(fr => fr.UserId == currentUserId && fr.FriendId == friendId) // Where the sender id is the current user's id and the receiver id is the friend's id
-                .FirstOrDefault();
-                Console.WriteLine($"Friend request found: {friendRequest != null}");
-        }
-        if (friendRequest != null) // If friend request exists
-        {
-            dbContext.Friends.Remove(friendRequest); // Remove friend request from database
-            dbContext.SaveChanges(); // Save changes
-            Console.WriteLine("Friend request removed successfully.");
-        }
-        var updatedUserProfile = dbContext.Users
-            .Where(u => u.Id == friendId)
-            .FirstOrDefault();
-        return new RedirectResult("/profile/" + friendId); // After friend request removed, return/stay on profile of user friend request was removed from
-    }
+    // [Route("friends/removefriendrequest")]
+    // [HttpPost]
+    // public IActionResult RemoveSentFriendRequest(int friendId)
+    // {
+    //     Console.WriteLine("RemoveSentFriendRequest method triggered");
+    //     AcebookDbContext dbContext = new AcebookDbContext();
+    //     int currentUserId = HttpContext.Session.GetInt32("user_id").Value; // Gets the current user's id
+    //     Friend friendRequest = null;
+    //     if (dbContext.Friends != null)
+    //     {
+    //         Console.WriteLine($"CurrentUserId: {currentUserId}, FriendId: {friendId}");
+    //         friendRequest = dbContext.Friends // Finds the friend request in the database
+    //             .Where(fr => fr.UserId == currentUserId && fr.FriendId == friendId) // Where the sender id is the current user's id and the receiver id is the friend's id
+    //             .FirstOrDefault();
+    //             Console.WriteLine($"Friend request found: {friendRequest != null}");
+    //     }
+    //     if (friendRequest != null) // If friend request exists
+    //     {
+    //         dbContext.Friends.Remove(friendRequest); // Remove friend request from database
+    //         dbContext.SaveChanges(); // Save changes
+    //         Console.WriteLine("Friend request removed successfully.");
+    //     }
+    //     var updatedUserProfile = dbContext.Users
+    //         .Where(u => u.Id == friendId)
+    //         .FirstOrDefault();
+    //     return new RedirectResult("/profile/" + friendId); // After friend request removed, return/stay on profile of user friend request was removed from
+    // }
     
     [HttpPost]
     [Route("Friends/RemoveFriend")]

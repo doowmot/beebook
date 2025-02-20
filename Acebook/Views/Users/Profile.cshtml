@@ -19,15 +19,16 @@ else
             {
                 <form method="post" asp-controller="Friends" asp-action="SendFriendRequest"> 
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="btn btn-primary">Add Friend</button>
+                    <button type="submit" class="btn btn-primary" onclick="SendFriendRequest()">Add Friend</button>
                 </form>
             }
             else if (Model.FriendStatus == FriendStatus.Pending) // Friend request sent, but not accepted yet
             {
-                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
+                <button class="btn btn-secondary" disabled>Friend Request Sent</button>
+                @* <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="btn btn-warning">Cancel Friend Request</button>
-                </form>
+                    <button type="submit" class="btn btn-warning">Cancel Friend Request</button> *@
+                @* </form> *@
             }
             else if (Model.FriendStatus == FriendStatus.Friends) // Already friends
             {
