@@ -106,24 +106,35 @@ function fetchPosts() {
     
     @foreach (Post post in ViewBag.Posts)
     {
-        <div class="single-post">
+   <div class="single-post">
+       <div class="line-up">
+            <div class="user-img">
+                    <img src="@post.User.ProfilePicturePath" alt="User Picture">
+                     
+            </div>
+                    <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
+      </div>
+            <div class="date-comment">@post.CreatedAt</div>
     <div class="post">
-        <p class="post-area"><strong>@post.User.Name</strong>: @post.Content</p>
-        <div class="date-comment">@post.CreatedAt</div>
+        
      <div class="like-box">
             <form action="/IncrementLike" method="post" onsubmit="preventDefaultAndSubmit(event)">
         <input type="hidden" name="postId" value="@post.Id" />
         <input class="bee-like" type="image" src="@Url.Content("~/img/bee.png")" alt="Like" class="like-button" onclick="submitLike(event)">
             </form>
-    <div id="likes-count-@post.Id">
-        @post.LikesCount
-    </div>
+                <div id="likes-count-@post.Id">
+                    @post.LikesCount
+                </div>
     
           <div class="delete-div"><button class="delete-post" onclick="deletePost(@post.Id)">Delete Post</button> </div>  
     </div>
         </div>
           <div class="comment-form">
+             
               <form action="/comments" method="post">
+                @* <div class="user-img">
+                    <img src="" alt="User Picture">
+                </div> *@
                   <input type="hidden" name="postId" value="@post.Id" /> <!-- Attach comment to post -->
                   <input type="text" name="commentContent" placeholder="Write a comment..." />
                   <input type="submit" value="Comment" />
@@ -135,15 +146,20 @@ function fetchPosts() {
             {
                 foreach (Comment comment in post.Comments)
                 {
-                    <div class="one-comment">
-                        <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
-                        <p class="comment-dt">@comment.DateTime</p>
-                    </div>
+                        <div class="main-comment">
+                                <div class="comment-img">
+                                <img src="@comment.User.ProfilePicturePath" alt="Comment Picture">
+                                 </div>
+                                <div class="one-comment">
+                                    <p id="comment-box"><strong id="comment-zone">@comment.User.Name</strong>: @comment.Comments</p>
+                                    <p class="comment-dt">@comment.DateTime</p>
+                                </div>
+                        </div>
                 
                 }
             }
         </div>
-        </div> 
+    </div> 
     }
 </div>
 

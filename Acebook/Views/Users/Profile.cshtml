@@ -1,17 +1,26 @@
 @using acebook.Models
 @model UserProfileViewModel // This tells Razor to look for UserProfileViewModel inside the acebook.Models namespace.
 
-<h1>@Model.User.Name's Profile</h1>
-
+<head>
+    <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true" />
+</head>
+    <div class="users-name">
+        <h1>@Model.User.Name's Profile</h1>
+        <div > 
+            <img src="@Url.Content(Model.User.ProfilePicturePath)" class="profile-picture" alt="Profile Picture" id="ProfilePicture">
+        </div>
+    </div>
 @if (Model.IsOwnProfile)
 {
-    <p>Welcome to your profile!</p>
+    <div class="welcome-message">
+        <h5>Welcome to your profile!</h5>
     <!-- Render options to edit the profile, view posts, or any other personal settings -->
+    </div>
 }
 else
 {
-    <div class="d-flex align-content-between">
-        <p>You're viewing @Model.User.Name's profile.</p>
+    <div class="welcome-message">
+        <h5>You're viewing @Model.User.Name's profile.</h5>
 
         <!-- Add/Remove Friend Button (Appears on top right) -->
         <div class="d-flex align-items-center">
@@ -19,16 +28,12 @@ else
             {
                 <form method="post" asp-controller="Friends" asp-action="SendFriendRequest"> 
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="btn btn-primary" onclick="SendFriendRequest()">Add Friend</button>
+                    <button type="submit" class="btn btn-primary">Add Friend</button>
                 </form>
             }
             else if (Model.FriendStatus == FriendStatus.Pending) // Friend request sent, but not accepted yet
             {
                 <button class="btn btn-secondary" disabled>Friend Request Sent</button>
-                @* <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
-                    <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="btn btn-warning">Cancel Friend Request</button> *@
-                @* </form> *@
             }
             else if (Model.FriendStatus == FriendStatus.Friends) // Already friends
             {
@@ -42,10 +47,10 @@ else
     </div>
 }
 <!-- Split screen into two sections -->
-<div class="container mt-4">
-    <div class="row">
-        <!-- Friends Section (Left) -->
-        <div class="col-md-6">
+<div class="row">
+    <!-- Friends Section -->
+    <div class="left">
+        <div class="friends">
             <h2>Friends</h2>
                 <div class="list-group">
                 @if (Model.Friends != null && Model.Friends.Any())
@@ -65,27 +70,29 @@ else
                 {
                     <p>No friends yet</p>
                 }
-                </div>
-        </div>
-
-        <!-- Posts Section -->
-        <div class="col-md-6">
-            <h2>Posts</h2>
-            <div class="list-group">
-                @if (Model.Posts != null && Model.Posts.Any())
-                {
-                    @foreach (var post in Model.Posts)
-                    {
-                        <div class="list-group-item">
-                            <p>@post.Content</p>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <p>No posts yet</p>
-                }
             </div>
+        </div>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="right">  
+        <div class="posts">  
+            <h2>Posts</h2>
+        </div>
+        <div class="list-group">
+            @if (Model.Posts != null && Model.Posts.Any())
+            {
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="list-group-item">
+                        <p>@post.Content</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No posts yet</p>
+            }
         </div>
     </div>
 </div>

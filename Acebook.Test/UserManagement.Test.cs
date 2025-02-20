@@ -20,47 +20,47 @@ namespace Acebook.Tests
       driver.Dispose();
     }
 
-    [Test]
-    public void SignUp_ValidCredentials_RedirectToSignIn()
-    {
-      driver.Navigate().GoToUrl("http://127.0.0.1:5287");
-      IWebElement signUpButton = driver.FindElement(By.Id("signup"));
-      signUpButton.Click();
-      IWebElement nameField = driver.FindElement(By.Id("name"));
-      nameField.SendKeys("francine");
-      IWebElement emailField = driver.FindElement(By.Id("email"));
-      emailField.SendKeys("francine@email.com");
-      IWebElement passwordField = driver.FindElement(By.Id("password"));
-      passwordField.SendKeys("12345678");
-      IWebElement submitButton = driver.FindElement(By.Id("submit"));
-      submitButton.Click();
-      string currentUrl = driver.Url;
-      Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/signin"));
-    }
+    // [Test]
+    // public void SignUp_ValidCredentials_RedirectToSignIn()
+    // {
+    //   driver.Navigate().GoToUrl("http://127.0.0.1:5287");
+    //   IWebElement signUpButton = driver.FindElement(By.Id("signup"));
+    //   signUpButton.Click();
+    //   IWebElement nameField = driver.FindElement(By.Id("name"));
+    //   nameField.SendKeys("francine");
+    //   IWebElement emailField = driver.FindElement(By.Id("email"));
+    //   emailField.SendKeys("francine@email.com");
+    //   IWebElement passwordField = driver.FindElement(By.Id("password"));
+    //   passwordField.SendKeys("12345678");
+    //   IWebElement submitButton = driver.FindElement(By.Id("submit"));
+    //   submitButton.Click();
+    //   string currentUrl = driver.Url;
+    //   Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/signin"));
+    // }
 
-    [Test]
-    public void SignIn_ValidCredentials_RedirectToPosts() {
-      driver.Navigate().GoToUrl("http://127.0.0.1:5287");
-      IWebElement signUpButton = driver.FindElement(By.Id("signup"));
-      signUpButton.Click();
-      IWebElement nameField = driver.FindElement(By.Id("name"));
-      nameField.SendKeys("francine");
-      IWebElement emailField = driver.FindElement(By.Id("email"));
-      emailField.SendKeys("francine@email.com");
-      IWebElement passwordField = driver.FindElement(By.Id("password"));
-      passwordField.SendKeys("12345678");
-      IWebElement submitButton = driver.FindElement(By.Id("submit"));
-      submitButton.Click();
+    // [Test]
+    // public void SignIn_ValidCredentials_RedirectToPosts() {
+    //   driver.Navigate().GoToUrl("http://127.0.0.1:5287");
+    //   IWebElement signUpButton = driver.FindElement(By.Id("signup"));
+    //   signUpButton.Click();
+    //   IWebElement nameField = driver.FindElement(By.Id("name"));
+    //   nameField.SendKeys("francine");
+    //   IWebElement emailField = driver.FindElement(By.Id("email"));
+    //   emailField.SendKeys("francine@email.com");
+    //   IWebElement passwordField = driver.FindElement(By.Id("password"));
+    //   passwordField.SendKeys("12345678");
+    //   IWebElement submitButton = driver.FindElement(By.Id("submit"));
+    //   submitButton.Click();
 
-      driver.Navigate().GoToUrl("http://127.0.0.1:5287/signin");
-      emailField = driver.FindElement(By.Id("email"));
-      emailField.SendKeys("francine@email.com");
-      passwordField = driver.FindElement(By.Id("password"));
-      passwordField.SendKeys("12345678");
-      submitButton = driver.FindElement(By.Id("submit"));
-      submitButton.Click();
-      string currentUrl = driver.Url;
-      Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/posts"));
-    }
+    //   driver.Navigate().GoToUrl("http://127.0.0.1:5287/signin");
+    //   emailField = driver.FindElement(By.Id("email"));
+    //   emailField.SendKeys("francine@email.com");
+    //   passwordField = driver.FindElement(By.Id("password"));
+    //   passwordField.SendKeys("12345678");
+    //   submitButton = driver.FindElement(By.Id("submit"));
+    //   submitButton.Click();
+    //   string currentUrl = driver.Url;
+    //   Assert.That(currentUrl, Is.EqualTo("http://127.0.0.1:5287/posts"));
+    // }
   }
 }

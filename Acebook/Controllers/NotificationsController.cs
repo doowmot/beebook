@@ -29,7 +29,6 @@ public class NotificationsController : Controller
             return RedirectToAction("New", "Sessions"); // Redirect to login if not logged in
         }
 
-        // Console.WriteLine($"Fetching notifications for User ID: {loggedInUserId.Value}");
         var notifications = dbContext.Notifications
             .Include(n => n.Sender) // Eager load the Sender relationship
             .Where(n => n.UserId == loggedInUserId.Value) // Fetch notifications for the logged-in user
@@ -44,7 +43,6 @@ public class NotificationsController : Controller
     [HttpPost]
     public IActionResult AcceptFriendRequest(int notificationId)
     {
-        Console.WriteLine("AcceptFriendRequest method triggered");
         AcebookDbContext dbContext = new AcebookDbContext();
         int? loggedInUserId = HttpContext.Session.GetInt32("user_id");
 
@@ -75,19 +73,8 @@ public class NotificationsController : Controller
             return NotFound("Friend request not found.");
         }
         friendRequest.Status = FriendStatus.Friends; // Accepts friend request
-        // int changes = dbContext.SaveChanges(); // Save changes to database
-
-        // if (changes > 0) 
-        // {
-        //     Console.WriteLine("Database successfully updated!");
-        // }
-        // else 
-        // {
-        //     Console.WriteLine("Warning: Database update did not save.");
-        // }       
         dbContext.Notifications.Remove(notification); // Removes notification
         dbContext.SaveChanges(); // Save changes to database
-        Console.WriteLine("Friend request accepted and notification deleted.");
         return RedirectToAction("Index", "Notifications");
     }
 
