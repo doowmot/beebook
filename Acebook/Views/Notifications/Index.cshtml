@@ -1,39 +1,44 @@
 @model IEnumerable<acebook.Models.Notification> // declares view will receive collecttion (IEnumerable) of Notification objects from the Notification Model
-
-<h2>Your Notifications</h2>
-
-@if (Model == null || !Model.Any()) // Model then refers to collection of Notification objects
-{
-    <p>No notifications found </p> // Returns no notifications if there's none in the db
-}
-else
-{
-<table class="table"> 
-    <thead> 
-        <tr>
-            <th>Sender</th> 
-            <th>Message</th>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var notification in Model)
-        {
+<head>
+    <link rel="stylesheet" href="~/css/Notifications.css" asp-append-version="true" />
+</head>
+<div class="title-container">
+    <h2>Your Notifications</h2>
+</div>
+<div class="main-container">
+    @if (Model == null || !Model.Any()) // Model then refers to collection of Notification objects
+    {
+        <p>No notifications found </p> // Returns no notifications if there's none in the db
+    }
+    else
+    {
+    <table class="table"> 
+        <thead> 
             <tr>
-                <td>@notification.Sender.Name</td>
-                <td>@notification.Sender.Name has sent you a friend request.</td>
-                <td>@notification.DateCreated.ToString("g")</td>
-                <td>
-                        <form method="post" asp-controller="Notifications" asp-action="AcceptFriendRequest" asp-route-notificationId="@notification.Id">
-                            <button type="submit" class="btn btn-success">Accept</button>
-                        </form>
-                        <form method="post" asp-controller="Notifications" asp-action="DeclineFriendRequest" asp-route-notificationId="@notification.Id">
-                            <button type="submit" class="btn btn-danger">Decline</button>
-                        </form>
-                </td>
+                <th>Sender</th> 
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
             </tr>
-        }
-    </tbody> 
-</table>
-}
+        </thead>
+        <tbody>
+            @foreach (var notification in Model)
+            {
+                <tr>
+                    <td>@notification.Sender.Name</td>
+                    <td>@notification.Sender.Name has sent you a friend request.</td>
+                    <td>@notification.DateCreated.ToString("g")</td>
+                    <td>
+                            <form method="post" asp-controller="Notifications" asp-action="AcceptFriendRequest" asp-route-notificationId="@notification.Id">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form method="post" asp-controller="Notifications" asp-action="DeclineFriendRequest" asp-route-notificationId="@notification.Id">
+                                <button type="submit" class="btn btn-danger">Decline</button>
+                            </form>
+                    </td>
+                </tr>
+            }
+        </tbody> 
+    </table>
+    }
+</div>
