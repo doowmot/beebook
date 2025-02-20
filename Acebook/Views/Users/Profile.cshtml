@@ -82,10 +82,11 @@ else
         <div class="list-group">
             @if (Model.Posts != null && Model.Posts.Any())
             {
-                @foreach (var post in Model.Posts)
+                @foreach (var post in Model.Posts.OrderByDescending(post => post.CreatedAt))
                 {
                     <div class="list-group-item">
                         <p>@post.Content</p>
+                        <p style="font-size: small;">@post.CreatedAt</p>
                     </div>
                 }
             }

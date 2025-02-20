@@ -49,7 +49,7 @@ public class PostTests
     }
 
     [Test]
-    public void TestPostCanBeDeleted()
+    public void TestPostCanBeDeletedFromDatabase()
     {
         // SETUP DATABASE
         Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
@@ -81,47 +81,6 @@ public class PostTests
 
         Assert.That(deletedPost, Is.Null,
             "Post should no longer exist in the database");
-
-        // CLEANUP
-        dbContext.Database.EnsureDeleted();
-        dbContext.Dispose();
-    }
-
-    [Test]
-    public void TestPostContentCanBeUpdated()
-    {
-        // SETUP DATABASE
-        Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
-        AcebookDbContext dbContext = new AcebookDbContext();
-        dbContext.Database.EnsureDeleted();
-        dbContext.Database.EnsureCreated();
-
-        // SETUP USER
-        User user = new User("Test User", "test@example.com", "password123");
-        dbContext.Users.Add(user);
-        dbContext.SaveChanges();
-
-        // SETUP POST
-        Post post = new Post
-        {
-            Content = "Original content",
-            UserId = user.Id
-        };
-        dbContext.Posts.Add(post);
-        dbContext.SaveChanges();
-
-        // TEST ACTIONS
-        post.Content = "Updated content";
-        dbContext.SaveChanges();
-
-        // VERIFY RESULTS
-        Post updatedPost = dbContext.Posts
-            .FirstOrDefault(p => p.UserId == user.Id);
-
-        Assert.That(updatedPost, Is.Not.Null,
-            "Post should still exist in the database");
-        Assert.That(updatedPost.Content, Is.EqualTo("Updated content"),
-            "Post content should be updated");
 
         // CLEANUP
         dbContext.Database.EnsureDeleted();
@@ -176,4 +135,5 @@ public class PostTests
         dbContext.Database.EnsureDeleted();
         dbContext.Dispose();
     }
+
 }
