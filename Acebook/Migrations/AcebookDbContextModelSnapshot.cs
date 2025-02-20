@@ -89,9 +89,6 @@ namespace acebook.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("SenderId")
                         .HasColumnType("integer");
 

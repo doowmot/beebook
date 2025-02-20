@@ -10,8 +10,6 @@ public class Notification
     public int UserId { get; set; }  // The user who will receive the notification
     [ForeignKey("Sender")] // SenderId is related to UserId in the Friend model
     public int SenderId { get; set; } // The user who sent the friend request
-    // public string Message { get; set; }
-    public bool IsRead { get; set; } // To mark if the notification has been read
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
     public virtual User User { get; set; }  // Receiver of the notification
