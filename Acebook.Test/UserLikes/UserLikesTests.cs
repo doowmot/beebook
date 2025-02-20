@@ -53,7 +53,7 @@ public class UserLikesTests
     }
 
     [Test]
-    public void TestUserCannotLikeSamePostTwice()
+    public void TestLikeCannotBeCreatedWithoutUserId()
     {
         // SETUP DATABASE
         Environment.SetEnvironmentVariable("DATABASE_NAME", "acebook_csharp_test");
