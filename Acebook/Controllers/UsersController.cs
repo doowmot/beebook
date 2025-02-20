@@ -60,47 +60,47 @@ public class UsersController : Controller
             {
                 return NotFound();
             }
-            var posts = dbContext.Posts // Fetches and lists a users own post by their user id 
-                .Where(p => p.UserId == Id) 
+
+            var posts = dbContext.Posts // Fetches and lists a user's own posts by their user id 
+                .Where(p => p.UserId == Id)
                 .ToList();
 
-            // Retrieve Friends where the current user is either sender or receiver
-            var friends = dbContext.Friends
+             // Retrieve the friendship record where the current user is either the sender or receiver
+            var friendship = dbContext.Friends
                 .Where(f => (f.UserId == Id && f.FriendId == loggedInUserId.Value) ||
                             (f.UserId == loggedInUserId.Value && f.FriendId == Id))
                 .FirstOrDefault();
 
-            // Determine Friendship Status 
-            FriendStatus? friendStatus = null; // Default: null (meaning no status yet)
-        
-            if (friends != null)
-            {
-                friendStatus = friends.Status; // Use the actual status if a friendship exists
-            }
+            // Set FriendStatus based on the friendship record
+            FriendStatus? friendStatus = friendship?.Status ?? null;
+
+            // Get confirmed friends list
+            var friends = dbContext.Friends
+                .Where(f => (f.UserId == Id || f.FriendId == Id) && f.Status == FriendStatus.Friends)
+                .Include(f => f.User)
+                .Include(f => f.FriendUser)
+                .ToList();
+
+            // Convert to a list of User objects
+            var friendUsers = friends.Select(f => f.UserId == Id ? f.FriendUser : f.User).ToList();
+
             var model = new UserProfileViewModel
             {
                 User = user,
                 IsOwnProfile = loggedInUserId.Value == Id,
                 Posts = posts,
-                FriendStatus = friendStatus // New: Pass friendship status to the view
+                FriendStatus = friendStatus, // sets FriendStatus
+                Friends = friendUsers
             };
 
             return View(model);
         }
     }
     
-    
-    [Route("/notifications")]
-    [HttpGet]
-    public IActionResult Notifications()
-    {
-        return View();
-    }
-
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
+

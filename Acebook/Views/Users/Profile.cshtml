@@ -28,21 +28,18 @@ else
             {
                 <form method="post" asp-controller="Friends" asp-action="SendFriendRequest"> 
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="add-friend">Add Friend</button>
+                    <button type="submit" class="btn btn-primary">Add Friend</button>
                 </form>
             }
             else if (Model.FriendStatus == FriendStatus.Pending) // Friend request sent, but not accepted yet
             {
-                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
-                    <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="add-friend">Cancel Friend Request</button>
-                </form>
+                <button class="btn btn-secondary" disabled>Friend Request Sent</button>
             }
             else if (Model.FriendStatus == FriendStatus.Friends) // Already friends
             {
-                <form method="post" asp-controller="Friends" asp-action="RemoveSentFriendRequest">
+                <form method="post" asp-controller="Friends" asp-action="RemoveFriend">
                     <input type="hidden" name="friendId" value="@Model.User.Id" />
-                    <button type="submit" class="add-friend">Remove Friend</button>
+                    <button type="submit" class="btn btn-danger">Remove Friend</button>
                 </form>
             }
             <!-- Need to Add Remove friend button for once Request has accepted -->
@@ -52,24 +49,29 @@ else
 <!-- Split screen into two sections -->
 <div class="row">
     <!-- Friends Section -->
-    <div class="left ">
+    <div class="left">
         <div class="friends">
-        <h2>Friends</h2>
-        </div>
-        <ul class="list-group">
-            <p><Noframes> Friends yet</Noframes></p>
-            @if (Model.Friends != null && Model.Friends.Any())
-            {
-                @foreach (var friend in Model.Friends)
+            <h2>Friends</h2>
+                <div class="list-group">
+                @if (Model.Friends != null && Model.Friends.Any())
                 {
-                    <li class="list-group-item">@friend.Name</li>
+                    <ul class="list-group">
+                        @foreach (var friend in Model.Friends)
+                        {
+                            <li class="list-group-item">
+                                <a href="@Url.Action("Profile", "Users", new { id = friend.Id })">
+                                    @friend.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 }
-            }
-            else
-            {
-                <p>No friends yet.</p>
-            }
-        </ul>
+                else
+                {
+                    <p>No friends yet</p>
+                }
+            </div>
+        </div>
     </div>
 
     <!-- Posts Section -->
@@ -89,8 +91,8 @@ else
             }
             else
             {
-                <p>No posts available.</p>
-            }               
+                <p>No posts yet</p>
+            }
         </div>
     </div>
 </div>
