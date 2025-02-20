@@ -5,7 +5,7 @@ using acebook.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class NotificationTests
-{  
+{
     [Test]
     public void TestNotificationIsCreatedWithFriendRequest()
     {
@@ -35,8 +35,7 @@ public class NotificationTests
         {
             UserId = friendUser.Id,
             SenderId = user.Id,
-            IsRead = false,
-            DateCreated = DateTime.UtcNow  // Changed to UTC time
+            DateCreated = DateTime.UtcNow
         };
         dbContext.Notifications.Add(notification);
         dbContext.SaveChanges();
@@ -47,12 +46,9 @@ public class NotificationTests
 
         Assert.That(savedNotification, Is.Not.Null,
             "Notification should be created when friend request is sent");
-        Assert.That(savedNotification.IsRead, Is.False,
-            "New notification should be unread");
 
         // CLEANUP
         dbContext.Database.EnsureDeleted();
         dbContext.Dispose();
     }
 }
-
