@@ -1,0 +1,32 @@
+.text-center{
+    background-color: rgb(255, 197, 71);
+    margin-top: 10px; 
+    margin-bottom: 20px;
+    margin-left: 30px; 
+    margin-right: 30px;
+    position: relative;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(119, 105, 77, 0.3);
+
+}
+
+.picture-container {
+    width: 100%;
+    text-align: center;
+}
+
+.picture-container img {
+    max-width: 100%;
+    height: 500px;
+}
+.text-overlay {
+    position: absolute;
+    top: 50%;  /* Position text in the middle vertically */
+    left: 50%;  /* Position text in the middle horizontally */
+    transform: translate(-50%, -50%);  /* Adjust to truly center the text */
+    color: white;  /* Text color */
+    font-size: 24px;  /* Adjust size as needed */
+    font-weight: bold;  /* Optional */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* Optional for readability */
+}

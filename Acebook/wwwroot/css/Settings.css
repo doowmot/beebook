@@ -17,7 +17,18 @@ html {
     margin-bottom: 60px;
   }
   
-  /* Adding CSS for Settings */
+.title-container{
+  background-color: rgb(255, 197, 71);
+    margin-top: 10px; 
+    margin-bottom: 20px;
+    margin-left: 30px; 
+    margin-right: 30px;
+    position: relative;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(119, 105, 77, 0.3);
+  
+}
   /* This container will hold both the form and the picture */
 .settings-container {
   display: flex; /* Flexbox layout */
@@ -35,7 +46,7 @@ html {
 
 .profile-picture img {
   max-width: 100%;
-  height: auto; /* Maintain aspect ratio */
+  height: 450px; /* Maintain aspect ratio */
   border-radius: 8px; /* Optional: for rounded corners */
 }
   .mysettings-form {
