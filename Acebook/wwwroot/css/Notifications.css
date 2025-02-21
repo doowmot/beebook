@@ -1,0 +1,20 @@
+.title-container{
+    background-color: rgb(255, 197, 71);
+    margin-top: 10px; 
+    margin-bottom: 20px;
+    margin-left: 30px; 
+    margin-right: 30px;
+    position: relative;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(119, 105, 77, 0.3);
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.main-container{
+    background-color: rgb(251, 238, 218);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: larger;
+}
