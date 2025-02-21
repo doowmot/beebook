@@ -17,6 +17,9 @@ body {
   margin-bottom: 60px;
 }
 
+.navbar-color {
+  background-color: #f5d78b;
+}
 /* Adding CSS styling for Sign in and Sign up pages */
 .login-form, .signup-form {
   max-width: 400px;
@@ -54,4 +57,13 @@ body {
 .login-form input[type="submit"]:hover, 
 .signup-form input[type="submit"]:hover {
   background-color: #EAC529;
+}
+
+.btn-colour{
+  background-color: #c27706;
+  margin-right: 10px;
+}
+
+.btn-colour-Signup{
+  background-color: rgb(26, 26, 26);
 }
