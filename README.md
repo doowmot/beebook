@@ -127,15 +127,8 @@ Avoid editing applied migrations — use a new one or rollback and reapply.
 ## 🧭 Future Improvements
 
 - Add notifications for new friend requests
-- Implement profile pictures and bios
 - Improve UI with modern styling
-- Set up GitHub Actions for CI
-
----
-
-## 📸 Screenshots
-
-*(optional — add a screenshot here if you have one)*
+- Add marketplace features
 
 ---
 
