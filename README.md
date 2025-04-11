@@ -1,97 +1,144 @@
-# AceBook
+# 🧑‍🤝‍🧑 AceBook (Facebook Clone)
 
-## Quickstart
+AceBook is a Facebook-style social media platform built as part of a 5-person Agile team during the Makers Bootcamp. It features user sign-up/login, posts, and a friend request system. The project was designed to simulate the experience of developing a full-stack web app in a professional setting using C#, ASP.NET Core, and PostgreSQL.
 
-First, clone this repository. Then:
+## 🔧 Tech Stack
 
-- Install the .NET Entity Framework CLI
-  * `dotnet tool install --global dotnet-ef`
-- Create the database/s in `psql`
-  * `CREATE DATABASE acebook_csharp_development;`
-  * `CREATE DATABASE acebook_csharp_test;`
-- Run the migration to create the tables
-  * `cd` into `/Acebook`
-  * `dotnet ef database update`
-  * `DATABASE_NAME=acebook_csharp_development dotnet ef database update`
-- Start the application, with the development database
-  * `DATABASE_NAME=acebook_csharp_development dotnet watch run`
-- Go to `http://localhost:5287/`
+- **Frontend**: Razor Pages (ASP.NET MVC)
+- **Backend**: C# with ASP.NET Core
+- **Database**: PostgreSQL
+- **ORM**: Entity Framework Core (EF Core)
+- **Testing**: NUnit
+- **Tools**: Git, GitHub, Chromedriver
 
-## Running the Tests
+---
 
-- Install Chromedriver
-  * `brew install chromedriver`
-- Start the application, with the default (test) database
-  * `dotnet watch run`
-- Open a second terminal session and run the tests
-  * `dotnet test`
+## 🚀 Key Features
 
-### Troubleshooting
+- User sign-up and authentication
+- Post creation and feed display
+- Friend request system (send/accept/reject)
+- Test-driven development (95%+ test coverage)
+- Fully containerized database with programmatic migrations
 
-If you see a popup about not being able to open Chromedriver...
-- Go to **System Preferences > Security and Privacy > General**
-- There should be another message about Chromedriver there
-- If so, Click on **Allow Anyway**
+---
 
-## Updating the Database
+## 👨‍💻 My Contributions
 
-Changes are applied to the database programatically, using files called _migrations_, which live in the `/Migrations` directory. The process is as follows...
+- Helped implement the **friend request system**, managing user-to-user connections
+- Wrote **comprehensive NUnit test suites** to ensure high test coverage
+- Collaborated via pair programming and GitHub flow in an Agile environment
 
-- To update an existing table
-  * For example, you might want to add a title to the `Post` model
-  * In which case, you would add a new field there
-- To create a new table
-  * For example, you might want to add a table called Comments
-  * First, create the `Comment` model
-  * Then go to AcebookDbContext
-  * And add this `public DbSet<Comment>? Comments { get; set; }` 
-- Generate the migration file
-  * `cd` into `/Acebook`
-  * Decide what you wan to call the migration file
-  * `AddTitleToPosts` or `CreateCommentsTable` would be good descriptive names
-  * Then do `dotnet ef migrations add ` followed by the name you chose
-  * E.g.  `dotnet ef migrations add AddTitleToPosts`
-- Run the migration
-  * `dotnet ef database update`
+---
 
-### Troubleshooting
+## 🧠 What I Learned
 
-#### Seeing `role "postgres" does not exist`?
+- How to model complex user relationships with many-to-many tables
+- Practical TDD using NUnit and C# for backend logic
+- Managing EF Core migrations for schema changes
+- Communication and version control in a remote Agile team
+- Troubleshooting .NET and PostgreSQL integration issues
 
-Your application tries to connect to the database as a user called `postgres`, which is normally created automatically when you install PostgresQL. If the `postgres` user doesn't exist, you'll see `role "postgres" does not exist`.
+---
 
-To fix it, you'll need to create the `postgres` user.
+## 📺 Demo Video
 
-Try this in your terminal...
+[▶️ Watch Team Demo (2 min)](https://youtu.be/hLgDS5df96U)
 
-```
-; createuser -s postgres
+> *Note: This video was created and narrated by a teammate during our Makers Bootcamp project presentation. I contributed to the friend request system and backend test coverage, and collaborated throughout using Agile workflows.*
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/doowmot/beebook.git
+cd Acebook
 ```
 
-If you see `command not found: createuser`, start a new `psql` session and do this...
+### 2. Install Entity Framework CLI
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+### 3. Set Up the Databases in `psql`
 
 ```sql
-create user postgres;
+CREATE DATABASE acebook_csharp_development;
+CREATE DATABASE acebook_csharp_test;
 ```
 
-#### Want to Change an Existing Migration?
+### 4. Run Migrations
 
-Don't edit the migration files after they've been applied / run. If you do that, it'll probably lead to problems. If you decide that the migration you just applied wasn't quite right for some reason, you have two options
-
-- Create and run another migration (using the process above)
-
-OR...
-
-- Rollback / undo the last migration
-- Then edit the migration file before re-running it
-
-How do you rollbacl a migration? Let's assume that you have two migrations, both of which have been applied.
-
-1. CreatePostsAndUsers
-2. AddTitleToPosts
-
-To rollback the second, you again use `dotnet ef database update` but this time adding the name of the last 'good' migration. In this case, that would be `CreatePostsAndUsers`. So the command is...
-
-```shell
-; dotnet ef database update CreatePostsAndUsers
+```bash
+DATABASE_NAME=acebook_csharp_development dotnet ef database update
 ```
+
+### 5. Start the App
+
+```bash
+DATABASE_NAME=acebook_csharp_development dotnet watch run
+```
+
+Then open [http://localhost:5287](http://localhost:5287) in your browser.
+
+---
+
+## ✅ Running Tests
+
+```bash
+dotnet watch run  # in one terminal
+dotnet test       # in a second terminal
+```
+
+### You may need:
+
+```bash
+brew install chromedriver
+```
+
+If blocked by macOS, allow access via:  
+**System Preferences > Security & Privacy > General > Allow Anyway**
+
+---
+
+## ⚙️ Migrations Guide
+
+To create a new migration:
+
+```bash
+dotnet ef migrations add AddTitleToPosts
+dotnet ef database update
+```
+
+To rollback:
+
+```bash
+dotnet ef database update CreatePostsAndUsers
+```
+
+Avoid editing applied migrations — use a new one or rollback and reapply.
+
+---
+
+## 🧭 Future Improvements
+
+- Add notifications for new friend requests
+- Implement profile pictures and bios
+- Improve UI with modern styling
+- Set up GitHub Actions for CI
+
+---
+
+## 📸 Screenshots
+
+*(optional — add a screenshot here if you have one)*
+
+---
+
+## 📜 License
+
+MIT – see `LICENSE` file for details.
